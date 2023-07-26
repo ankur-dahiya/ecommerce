@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fecthAllCategories, fecthAllProducts,fecthProductsByFilters,fecthAllBrands } from './ProductApi';
+import { fecthAllCategories, fecthAllProducts,fecthProductsByFilters,fecthAllBrands, fecthProductById } from './ProductApi';
 
 const initialState = {
   products: [],
   categories: [],
   brands : [],
   status: 'idle',
-  totalItems : 0
+  totalItems : 0,
+  selectedProduct : null
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -18,6 +19,15 @@ export const fecthAllProductsAsync = createAsyncThunk(
   'product/fetchAllProducts',
   async () => {
     const response = await fecthAllProducts();
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const fecthProductByIdAsync = createAsyncThunk(
+  'product/fecthProductByIdAsync',
+  async (id) => {
+    const response = await fecthProductById(id);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -86,6 +96,12 @@ export const productSlice = createSlice({
       })
       .addCase(fecthBrandsAsync.fulfilled, (state, action) => {
         state.brands = action.payload;
+      })
+      .addCase(fecthProductByIdAsync.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fecthProductByIdAsync.fulfilled, (state, action) => {
+        state.selectedProduct = action.payload;
       });
   },
 });
@@ -99,5 +115,6 @@ export const selectAllProducts = (state) => state.product.products;
 export const selectTotalItems = (state) => state.product.totalItems;
 export const selectAllCategories = (state) => state.product.categories;
 export const selectAllBrands = (state) => state.product.brands;
+export const selectProductById = (state) => state.product.selectedProduct;
 
 export default productSlice.reducer;

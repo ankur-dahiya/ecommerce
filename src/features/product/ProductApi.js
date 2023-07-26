@@ -7,6 +7,16 @@ export function fecthAllProducts() {
   }
   );
 }
+
+export function fecthProductById(id) {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/products/"+id);
+    const data = await response.json();
+    resolve({data});
+  }
+  );
+}
+
 export function fecthAllCategories() {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/categories");
