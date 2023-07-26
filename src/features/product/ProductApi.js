@@ -7,6 +7,22 @@ export function fecthAllProducts() {
   }
   );
 }
+export function fecthAllCategories() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/categories");
+    const data = await response.json();
+    resolve({data});
+  }
+  );
+}
+export function fecthAllBrands() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/brands");
+    const data = await response.json();
+    resolve({data});
+  }
+  );
+}
 
 export function fecthProductsByFilters({filter,sort,pagination}) {
   // filter = {"category" : ["laptop","smartphone"]}
