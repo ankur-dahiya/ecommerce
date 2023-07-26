@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAllProducts,fecthAllProductsAsync,fecthProductsByFiltersAsync } from "../productSlice";
+import { selectAllProducts,fecthAllProductsAsync,fecthProductsByFiltersAsync,selectTotalItems } from "../productSlice";
 
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -14,6 +14,7 @@ import {
 
 import { ChevronLeftIcon, ChevronRightIcon,StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating",order:"desc", current: false },
@@ -218,9 +219,11 @@ function classNames(...classes) {
 export default function ProductList() {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
+  const totalItems = useSelector(selectTotalItems);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter,setFilter] = useState({});
   const [sort,setSort] = useState({});
+  const [page,setPage] = useState(1);
 
   //TODO: it will support multiple categories
   const handleFilter = (e,section,option)=>{
@@ -246,9 +249,19 @@ export default function ProductList() {
     setSort(newFilter);
   }
 
+  const handlePage = (page)=>{
+    console.log(page);
+    setPage(page);
+  }
+
   useEffect(()=>{
-    dispatch(fecthProductsByFiltersAsync({filter,sort}));
-  },[dispatch,filter,sort]);
+    const pagination = {_page:page,_limit:ITEMS_PER_PAGE}
+    dispatch(fecthProductsByFiltersAsync({filter,sort,pagination}));
+  },[dispatch,filter,sort,page]);
+
+  useEffect(()=>{
+    setPage(1);
+  },[totalItems,sort])
   return (
     <div>
       <div className="bg-white">
@@ -336,7 +349,7 @@ export default function ProductList() {
             </section>
           </main>
           {/* Pagination */}
-          <Pagination></Pagination>
+          <Pagination page={page} handlePage={handlePage} totalItems={totalItems}></Pagination>
         </div>
       </div>
     </div>
@@ -572,7 +585,7 @@ function ProductGrid({products}){
   )
 }
 
-function Pagination(){
+function Pagination({page,handlePage,totalItems}){
   return(
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
@@ -592,9 +605,9 @@ function Pagination(){
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">1</span> to{" "}
-                  <span className="font-medium">10</span> of{" "}
-                  <span className="font-medium">97</span> results
+                  Showing <span className="font-medium">{(page-1)*ITEMS_PER_PAGE+1}</span> to{" "}
+                  <span className="font-medium">{page*ITEMS_PER_PAGE > totalItems ? totalItems : page*ITEMS_PER_PAGE}</span> of{" "}
+                  <span className="font-medium">{totalItems}</span> results
                 </p>
               </div>
               <div>
@@ -610,26 +623,15 @@ function Pagination(){
                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                   </a>
                   {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-                  <a
-                    href="#"
+                  {Array.from({length:Math.ceil(totalItems/ITEMS_PER_PAGE)}).map((el,index)=>(
+                    <div
+                    onClick={e=>handlePage(index+1)}
                     aria-current="page"
-                    className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className={`relative cursor-pointer z-10 inline-flex items-center ${page==index+1 ? "bg-indigo-600 text-white" :"text-gray-400 "}  px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   >
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    2
-                  </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                    3
-                  </a>
-
+                    {index+1}
+                  </div>
+                  ))}
                   <a
                     href="#"
                     className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
