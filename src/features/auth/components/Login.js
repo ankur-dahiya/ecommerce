@@ -18,7 +18,6 @@ export default function Login() {
   } = useForm();
   const user = useSelector(selectLoggedInUser);
   const error = useSelector(selectError);
-  console.log(user);
   return (
     <div>
       {user && <Navigate to="/" replace={true}></Navigate>}
