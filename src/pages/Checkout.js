@@ -7,6 +7,7 @@ import {
 } from '../features/cart/cartSlice';
 import { useForm } from 'react-hook-form';
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice';
 
 export default function Checkout() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function Checkout() {
   const [selectedAddress,setSelectedAddress] = useState(null);
   const [paymentMethod,setPaymentMethod] = useState("cash");
   const items = useSelector(selectItems);
+  const currentOrder = useSelector(selectCurrentOrder);
   const totalAmount = items.reduce((amount,item)=>(
     item.price * item.quantity + amount
   ),0)
@@ -34,7 +36,17 @@ export default function Checkout() {
     dispatch(deleteItemFromCartAsync(itemId));
   }
   const handleOrder = (e)=>{
-    
+    const order = {
+      items,
+      totalAmount,
+      totalItems,user,paymentMethod,
+      selectedAddress,
+      status : "pending" //other status can be delivered,received
+    };
+    dispatch(createOrderAsync(order));
+    // TODO: redirect to order-success page
+    // TODO: clear cart after order
+    // TODO : on server change the stock number of items
   }
   const {
     register,
@@ -42,16 +54,16 @@ export default function Checkout() {
     reset,
     formState: { errors },
   } = useForm();
+
     return (
         <>
         {!totalItems && <Navigate to="/"></Navigate>}
+        {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`}></Navigate>}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                 <div className='lg:col-span-3'>
                     <form className='bg-white px-5 py-12 mt-12' noValidate onSubmit={
                       handleSubmit((data)=>{
-
-                        console.log(data);
                         dispatch(updateUserAsync({...user,addresses:[...user.addresses,data]}));
                         reset();
                         })}>
@@ -315,7 +327,7 @@ export default function Checkout() {
                       <div className="mt-6">
                         <div
                           onClick={handleOrder}
-                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                          className="cursor-pointer flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Order Now
                         </div>

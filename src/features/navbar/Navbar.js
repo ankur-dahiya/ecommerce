@@ -52,9 +52,9 @@ export default function Navbar({children}){
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
+                        {navigation.map((item,index) => (
                           <a
-                            key={item.name}
+                            key={index}
                             href={item.href}
                             className={classNames(
                               item.current
@@ -100,8 +100,8 @@ export default function Navbar({children}){
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
+                            {userNavigation.map((item,index) => (
+                              <Menu.Item key={index}>
                                 {({ active }) => (
                                   <Link
                                     to={item.link}
@@ -136,9 +136,9 @@ export default function Navbar({children}){
 
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                  {navigation.map((item) => (
+                  {navigation.map((item,index) => (
                     <Disclosure.Button
-                      key={item.name}
+                      key={index}
                       as="a"
                       href={item.href}
                       className={classNames(
@@ -172,9 +172,9 @@ export default function Navbar({children}){
                     {items.length>0 && <span className="inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{items.length}</span>}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
-                    {userNavigation.map((item) => (
+                    {userNavigation.map((item,index) => (
                       <Disclosure.Button
-                        key={item.name}
+                        key={index}
                         as="a"
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
