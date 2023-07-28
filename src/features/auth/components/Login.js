@@ -13,11 +13,10 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const user = useSelector(selectLoggedInUser);
   const error = useSelector(selectError);
+  const user = useSelector(selectLoggedInUser);
   return (
     <div>
       {user && <Navigate to="/" replace={true}></Navigate>}
@@ -34,7 +33,7 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form noValidate className="space-y-6" onSubmit={handleSubmit((data)=>{
+          <form className="space-y-6" noValidate onSubmit={handleSubmit((data)=>{
             dispatch(checkUserAsync({email: data.email,password: data.password}))
           })}>
             <div>

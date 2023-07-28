@@ -4,17 +4,16 @@ import {
   deleteItemFromCartAsync,
   selectItems, updateCartAsync,
 } from './cartSlice';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 export default function Cart() {
   // const count = useSelector(selectCount);
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(true);
   const items = useSelector(selectItems);
   const totalAmount = items.reduce((amount,item)=>(
     item.price * item.quantity + amount
   ),0)
-  const totlaItems = items.reduce((total,item)=>(
+  const totalItems = items.reduce((total,item)=>(
     item.quantity + total
   ),0)
   const handleQuantity = (e,item)=>{
@@ -25,6 +24,8 @@ export default function Cart() {
   }
 
   return (
+    <>
+    {!totalItems && <Navigate to="/"></Navigate>}
       <div className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
         <div className="px-4 py-6 sm:px-6">
         <h1 className="text-4xl font-bold my-12 tracking-tight text-gray-900">Cart</h1>
@@ -85,7 +86,7 @@ export default function Cart() {
                       </div>
                       <div className="flex justify-between my-2 text-base font-medium text-gray-900">
                         <p>Total Items in Cart</p>
-                        <p>{totlaItems} items</p>
+                        <p>{totalItems} items</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
@@ -113,5 +114,6 @@ export default function Cart() {
                       </div>
                     </div>
       </div>
+      </>
   );
 }
