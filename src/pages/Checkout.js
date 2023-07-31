@@ -6,12 +6,13 @@ import {
   selectItems, updateCartAsync,
 } from '../features/cart/cartSlice';
 import { useForm } from 'react-hook-form';
-import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+import { updateUserAsync } from '../features/user/userSlice';
 import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice';
+import { selectUserInfo } from '../features/user/userSlice';
 
 export default function Checkout() {
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   const addresses = user.addresses;
   const [selectedAddress,setSelectedAddress] = useState(null);
   const [paymentMethod,setPaymentMethod] = useState("cash");

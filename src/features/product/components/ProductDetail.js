@@ -6,7 +6,7 @@ import { selectProductById } from '../productSlice';
 import { fecthProductByIdAsync } from '../productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
-import { selectLoggedInUser } from '../../auth/authSlice';
+import { selectUserInfo } from '../../user/userSlice';
 
 // TODO: in server data we will add colors,sizes,highlights to each product
 const colors = [
@@ -94,7 +94,7 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(sizes[2])
   const params = useParams();
   let product = useSelector(selectProductById);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   // TODO: solve the issue where previous images are showing(solved! but slow)
 
   function handleCart(e){
