@@ -17,6 +17,14 @@ export function fetchLoggedInUser(userId) {
   );
 }
 
+//clear loggedin user details on logout
+export function clearLoggedInUser() {
+  return new Promise(async (resolve) => {
+    resolve({data:"success"});
+  }
+  );
+}
+
 export function updateUser(updateData) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/users/"+updateData.id,{
