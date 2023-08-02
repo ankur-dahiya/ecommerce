@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fecthAllCategories, fecthAllProducts,fecthProductsByFilters,fecthAllBrands, fecthProductById } from './ProductApi';
+import { fecthAllCategories, fecthAllProducts,fecthProductsByFilters,fecthAllBrands, fecthProductById, createProduct, updateProduct } from './ProductApi';
 
 const initialState = {
   products: [],
@@ -28,6 +28,24 @@ export const fecthProductByIdAsync = createAsyncThunk(
   'product/fecthProductByIdAsync',
   async (id) => {
     const response = await fecthProductById(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const createProductAsync = createAsyncThunk(
+  'product/createProductAsync',
+  async (product) => {
+    const response = await createProduct(product);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const updateProductAsync = createAsyncThunk(
+  'product/updateProductAsync',
+  async (product) => {
+    const response = await updateProduct(product);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -63,12 +81,8 @@ export const productSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    clearSelectedProduct: (state) => {
+      state.selectedProduct = null;
     }
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -102,11 +116,25 @@ export const productSlice = createSlice({
       })
       .addCase(fecthProductByIdAsync.fulfilled, (state, action) => {
         state.selectedProduct = action.payload;
-      });
+      })
+      .addCase(createProductAsync.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
+        state.products.push(action.payload);
+      })
+      .addCase(updateProductAsync.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        const product_id = action.payload.id;
+        const product_index = state.products.findIndex((product)=>product.id===product_id);
+        state.products.splice(product_index,1,action.payload);
+      })
   },
 });
 
-export const { increment} = productSlice.actions;
+export const { clearSelectedProduct} = productSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

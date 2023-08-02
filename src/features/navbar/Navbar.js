@@ -4,6 +4,7 @@ import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outl
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectItems } from '../cart/cartSlice'
+import { selectUserInfo } from '../user/userSlice'
 
 const user = {
     name: 'Tom Cook',
@@ -12,11 +13,12 @@ const user = {
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
   const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-    { name: 'Reports', href: '#', current: false },
+    // if user not logged in show guest
+    { name: 'Dashboard', link: '#', user: true,guest: false },
+    { name: 'Team', link: '#', user: true,guest: false },
+    { name: 'Projects', link: '#', user: true,guest: false },
+    { name: 'Calendar', link: '#', user: true,guest: true },
+    { name: 'Admin', link: '/admin', admin: true,guest: false },
   ]
   const userNavigation = [
     { name: 'My Profile', link: '/profile' },
@@ -31,6 +33,7 @@ const user = {
 
 export default function Navbar({children}){
     const items = useSelector(selectItems);
+    const user1 = useSelector(selectUserInfo);
 
     return (
         <>
@@ -53,9 +56,10 @@ export default function Navbar({children}){
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item,index) => (
-                          <a
+                          // if user exists check his role else show guest options
+                          (user1 ? item[user1.role] : item.guest) ? <Link
                             key={index}
-                            href={item.href}
+                            to={item.link}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -65,8 +69,8 @@ export default function Navbar({children}){
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
-                        ))}
+                          </Link> : null 
+                            ))}
                       </div>
                     </div>
                   </div>

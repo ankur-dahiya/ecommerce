@@ -398,13 +398,16 @@ function ProductGrid({products}){
                                 </div>
                                 <div>
                                 <p className="text-sm font-medium text-gray-900">
-                                  ${Math.round(product.price *(1-product.discountPercentage/100))}
+                                  ${Math.round(product.price * (1-product.discountPercentage/100))}
                                 </p>
                                 <p className="text-sm font-medium text-gray-400 line-through">
                                   ${product.price}
                                 </p>
                                 </div>
                               </div>
+                              {product.deleted && <div>
+                                <p className="text-sm text-red-400">product deleted</p>
+                              </div>}
                             </div>
                           </Link>
                         ))}
