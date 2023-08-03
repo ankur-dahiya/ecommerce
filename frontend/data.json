@@ -1,11 +1,12 @@
-const products = [
+{
+  "products": [
     {
       "id": 1,
       "title": "iPhone 9",
       "description": "An apple mobile which is nothing like apple",
-      "price": 549,
+      "price": 456,
       "discountPercentage": 12.96,
-      "rating": 4.69,
+      "rating": 4.7,
       "stock": 94,
       "brand": "Apple",
       "category": "smartphones",
@@ -13,10 +14,11 @@ const products = [
       "images": [
         "https://i.dummyjson.com/data/products/1/1.jpg",
         "https://i.dummyjson.com/data/products/1/2.jpg",
-        "https://i.dummyjson.com/data/products/1/3.jpg",
-        "https://i.dummyjson.com/data/products/1/4.jpg",
-        "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-      ]
+        "https://i.dummyjson.com/data/products/1/3.jpg"
+      ],
+      "image4": "https://i.dummyjson.com/data/products/1/4.jpg",
+      "image5": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+      "deleted": true
     },
     {
       "id": 2,
@@ -47,7 +49,9 @@ const products = [
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"]
+      "images": [
+        "https://i.dummyjson.com/data/products/3/1.jpg"
+      ]
     },
     {
       "id": 4,
@@ -1425,7 +1429,9 @@ const products = [
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://i.dummyjson.com/data/products/78/thumbnail.jpg",
-      "images": ["https://i.dummyjson.com/data/products/78/thumbnail.jpg"]
+      "images": [
+        "https://i.dummyjson.com/data/products/78/thumbnail.jpg"
+      ]
     },
     {
       "id": 79,
@@ -1438,7 +1444,9 @@ const products = [
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://i.dummyjson.com/data/products/79/thumbnail.jpg",
-      "images": ["https://i.dummyjson.com/data/products/79/1.jpg"]
+      "images": [
+        "https://i.dummyjson.com/data/products/79/1.jpg"
+      ]
     },
     {
       "id": 80,
@@ -1832,9 +1840,1345 @@ const products = [
         "https://i.dummyjson.com/data/products/100/thumbnail.jpg"
       ]
     }
-  ];
-
-const brand = [...new Set(products.map(p=>(p.category)))];
-
-const val = brand.map(ct=>({value : ct,label : ct.split('-').join(" "),checked : false}))
-console.log(val);
+  ],
+  "categories": [
+    {
+      "value": "smartphones",
+      "label": "smartphones",
+      "checked": false
+    },
+    {
+      "value": "laptops",
+      "label": "laptops",
+      "checked": false
+    },
+    {
+      "value": "fragrances",
+      "label": "fragrances",
+      "checked": false
+    },
+    {
+      "value": "skincare",
+      "label": "skincare",
+      "checked": false
+    },
+    {
+      "value": "groceries",
+      "label": "groceries",
+      "checked": false
+    },
+    {
+      "value": "home-decoration",
+      "label": "home decoration",
+      "checked": false
+    },
+    {
+      "value": "furniture",
+      "label": "furniture",
+      "checked": false
+    },
+    {
+      "value": "tops",
+      "label": "tops",
+      "checked": false
+    },
+    {
+      "value": "womens-dresses",
+      "label": "womens dresses",
+      "checked": false
+    },
+    {
+      "value": "womens-shoes",
+      "label": "womens shoes",
+      "checked": false
+    },
+    {
+      "value": "mens-shirts",
+      "label": "mens shirts",
+      "checked": false
+    },
+    {
+      "value": "mens-shoes",
+      "label": "mens shoes",
+      "checked": false
+    },
+    {
+      "value": "mens-watches",
+      "label": "mens watches",
+      "checked": false
+    },
+    {
+      "value": "womens-watches",
+      "label": "womens watches",
+      "checked": false
+    },
+    {
+      "value": "womens-bags",
+      "label": "womens bags",
+      "checked": false
+    },
+    {
+      "value": "womens-jewellery",
+      "label": "womens jewellery",
+      "checked": false
+    },
+    {
+      "value": "sunglasses",
+      "label": "sunglasses",
+      "checked": false
+    },
+    {
+      "value": "automotive",
+      "label": "automotive",
+      "checked": false
+    },
+    {
+      "value": "motorcycle",
+      "label": "motorcycle",
+      "checked": false
+    },
+    {
+      "value": "lighting",
+      "label": "lighting",
+      "checked": false
+    }
+  ],
+  "brands": [
+    {
+      "value": "Apple",
+      "label": "Apple",
+      "checked": false
+    },
+    {
+      "value": "Samsung",
+      "label": "Samsung",
+      "checked": false
+    },
+    {
+      "value": "OPPO",
+      "label": "OPPO",
+      "checked": false
+    },
+    {
+      "value": "Huawei",
+      "label": "Huawei",
+      "checked": false
+    },
+    {
+      "value": "Microsoft Surface",
+      "label": "Microsoft Surface",
+      "checked": false
+    },
+    {
+      "value": "Infinix",
+      "label": "Infinix",
+      "checked": false
+    },
+    {
+      "value": "HP Pavilion",
+      "label": "HP Pavilion",
+      "checked": false
+    },
+    {
+      "value": "Impression of Acqua Di Gio",
+      "label": "Impression of Acqua Di Gio",
+      "checked": false
+    },
+    {
+      "value": "Royal_Mirage",
+      "label": "Royal_Mirage",
+      "checked": false
+    },
+    {
+      "value": "Fog Scent Xpressio",
+      "label": "Fog Scent Xpressio",
+      "checked": false
+    },
+    {
+      "value": "Al Munakh",
+      "label": "Al Munakh",
+      "checked": false
+    },
+    {
+      "value": "Lord - Al-Rehab",
+      "label": "Lord   Al Rehab",
+      "checked": false
+    },
+    {
+      "value": "L'Oreal Paris",
+      "label": "L'Oreal Paris",
+      "checked": false
+    },
+    {
+      "value": "Hemani Tea",
+      "label": "Hemani Tea",
+      "checked": false
+    },
+    {
+      "value": "Dermive",
+      "label": "Dermive",
+      "checked": false
+    },
+    {
+      "value": "ROREC White Rice",
+      "label": "ROREC White Rice",
+      "checked": false
+    },
+    {
+      "value": "Fair & Clear",
+      "label": "Fair & Clear",
+      "checked": false
+    },
+    {
+      "value": "Saaf & Khaas",
+      "label": "Saaf & Khaas",
+      "checked": false
+    },
+    {
+      "value": "Bake Parlor Big",
+      "label": "Bake Parlor Big",
+      "checked": false
+    },
+    {
+      "value": "Baking Food Items",
+      "label": "Baking Food Items",
+      "checked": false
+    },
+    {
+      "value": "fauji",
+      "label": "fauji",
+      "checked": false
+    },
+    {
+      "value": "Dry Rose",
+      "label": "Dry Rose",
+      "checked": false
+    },
+    {
+      "value": "Boho Decor",
+      "label": "Boho Decor",
+      "checked": false
+    },
+    {
+      "value": "Flying Wooden",
+      "label": "Flying Wooden",
+      "checked": false
+    },
+    {
+      "value": "LED Lights",
+      "label": "LED Lights",
+      "checked": false
+    },
+    {
+      "value": "luxury palace",
+      "label": "luxury palace",
+      "checked": false
+    },
+    {
+      "value": "Golden",
+      "label": "Golden",
+      "checked": false
+    },
+    {
+      "value": "Furniture Bed Set",
+      "label": "Furniture Bed Set",
+      "checked": false
+    },
+    {
+      "value": "Ratttan Outdoor",
+      "label": "Ratttan Outdoor",
+      "checked": false
+    },
+    {
+      "value": "Kitchen Shelf",
+      "label": "Kitchen Shelf",
+      "checked": false
+    },
+    {
+      "value": "Multi Purpose",
+      "label": "Multi Purpose",
+      "checked": false
+    },
+    {
+      "value": "AmnaMart",
+      "label": "AmnaMart",
+      "checked": false
+    },
+    {
+      "value": "Professional Wear",
+      "label": "Professional Wear",
+      "checked": false
+    },
+    {
+      "value": "Soft Cotton",
+      "label": "Soft Cotton",
+      "checked": false
+    },
+    {
+      "value": "Top Sweater",
+      "label": "Top Sweater",
+      "checked": false
+    },
+    {
+      "value": "RED MICKY MOUSE..",
+      "label": "RED MICKY MOUSE..",
+      "checked": false
+    },
+    {
+      "value": "Digital Printed",
+      "label": "Digital Printed",
+      "checked": false
+    },
+    {
+      "value": "Ghazi Fabric",
+      "label": "Ghazi Fabric",
+      "checked": false
+    },
+    {
+      "value": "IELGY",
+      "label": "IELGY",
+      "checked": false
+    },
+    {
+      "value": "IELGY fashion",
+      "label": "IELGY fashion",
+      "checked": false
+    },
+    {
+      "value": "Synthetic Leather",
+      "label": "Synthetic Leather",
+      "checked": false
+    },
+    {
+      "value": "Sandals Flip Flops",
+      "label": "Sandals Flip Flops",
+      "checked": false
+    },
+    {
+      "value": "Maasai Sandals",
+      "label": "Maasai Sandals",
+      "checked": false
+    },
+    {
+      "value": "Arrivals Genuine",
+      "label": "Arrivals Genuine",
+      "checked": false
+    },
+    {
+      "value": "Vintage Apparel",
+      "label": "Vintage Apparel",
+      "checked": false
+    },
+    {
+      "value": "FREE FIRE",
+      "label": "FREE FIRE",
+      "checked": false
+    },
+    {
+      "value": "The Warehouse",
+      "label": "The Warehouse",
+      "checked": false
+    },
+    {
+      "value": "Sneakers",
+      "label": "Sneakers",
+      "checked": false
+    },
+    {
+      "value": "Rubber",
+      "label": "Rubber",
+      "checked": false
+    },
+    {
+      "value": "Naviforce",
+      "label": "Naviforce",
+      "checked": false
+    },
+    {
+      "value": "SKMEI 9117",
+      "label": "SKMEI 9117",
+      "checked": false
+    },
+    {
+      "value": "Strap Skeleton",
+      "label": "Strap Skeleton",
+      "checked": false
+    },
+    {
+      "value": "Stainless",
+      "label": "Stainless",
+      "checked": false
+    },
+    {
+      "value": "Eastern Watches",
+      "label": "Eastern Watches",
+      "checked": false
+    },
+    {
+      "value": "Luxury Digital",
+      "label": "Luxury Digital",
+      "checked": false
+    },
+    {
+      "value": "Watch Pearls",
+      "label": "Watch Pearls",
+      "checked": false
+    },
+    {
+      "value": "Bracelet",
+      "label": "Bracelet",
+      "checked": false
+    },
+    {
+      "value": "LouisWill",
+      "label": "LouisWill",
+      "checked": false
+    },
+    {
+      "value": "Copenhagen Luxe",
+      "label": "Copenhagen Luxe",
+      "checked": false
+    },
+    {
+      "value": "Steal Frame",
+      "label": "Steal Frame",
+      "checked": false
+    },
+    {
+      "value": "Darojay",
+      "label": "Darojay",
+      "checked": false
+    },
+    {
+      "value": "Fashion Jewellery",
+      "label": "Fashion Jewellery",
+      "checked": false
+    },
+    {
+      "value": "Cuff Butterfly",
+      "label": "Cuff Butterfly",
+      "checked": false
+    },
+    {
+      "value": "Designer Sun Glasses",
+      "label": "Designer Sun Glasses",
+      "checked": false
+    },
+    {
+      "value": "mastar watch",
+      "label": "mastar watch",
+      "checked": false
+    },
+    {
+      "value": "Car Aux",
+      "label": "Car Aux",
+      "checked": false
+    },
+    {
+      "value": "W1209 DC12V",
+      "label": "W1209 DC12V",
+      "checked": false
+    },
+    {
+      "value": "TC Reusable",
+      "label": "TC Reusable",
+      "checked": false
+    },
+    {
+      "value": "Neon LED Light",
+      "label": "Neon LED Light",
+      "checked": false
+    },
+    {
+      "value": "METRO 70cc Motorcycle - MR70",
+      "label": "METRO 70cc Motorcycle   MR70",
+      "checked": false
+    },
+    {
+      "value": "BRAVE BULL",
+      "label": "BRAVE BULL",
+      "checked": false
+    },
+    {
+      "value": "shock absorber",
+      "label": "shock absorber",
+      "checked": false
+    },
+    {
+      "value": "JIEPOLLY",
+      "label": "JIEPOLLY",
+      "checked": false
+    },
+    {
+      "value": "Xiangle",
+      "label": "Xiangle",
+      "checked": false
+    },
+    {
+      "value": "lightingbrilliance",
+      "label": "lightingbrilliance",
+      "checked": false
+    },
+    {
+      "value": "Ifei Home",
+      "label": "Ifei Home",
+      "checked": false
+    },
+    {
+      "value": "DADAWU",
+      "label": "DADAWU",
+      "checked": false
+    },
+    {
+      "value": "YIOSI",
+      "label": "YIOSI",
+      "checked": false
+    }
+  ],
+  "users": [
+    {
+      "email": "test@test.com",
+      "password": "Qwert@123",
+      "id": 1,
+      "role": "user",
+      "addresses": [
+        {
+          "name": "Ankur Dahiya",
+          "email": "ankur@test.com",
+          "phone": "9876543210",
+          "street": "327 sonipat",
+          "city": "Sonipat",
+          "state": "Haryana",
+          "pinCode": "131001"
+        },
+        {
+          "name": "kjasdh",
+          "email": "test@test.com",
+          "phone": "9832",
+          "street": "askjdh",
+          "city": "kjasdh",
+          "state": "kjashd",
+          "pinCode": "kjashd"
+        }
+      ]
+    },
+    {
+      "email": "demo@test.com",
+      "password": "Qwert@123",
+      "id": 2,
+      "role": "user",
+      "addresses": [
+        {
+          "name": "Nikhil Dahiya",
+          "email": "nikhil@test.com",
+          "phone": "9999999999",
+          "street": "982 asdh",
+          "city": "akldj",
+          "state": "lkj",
+          "pinCode": "99382"
+        }
+      ]
+    },
+    {
+      "email": "admin@admin.com",
+      "password": "\"p7xJ+=3D?$aggE",
+      "addresses": [],
+      "role": "admin",
+      "id": 3
+    }
+  ],
+  "cart": [],
+  "orders": [
+    {
+      "items": [
+        {
+          "title": "iPhone 9",
+          "description": "An apple mobile which is nothing like apple",
+          "price": 549,
+          "discountPercentage": 12.96,
+          "rating": 4.69,
+          "stock": 94,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg",
+            "https://i.dummyjson.com/data/products/1/4.jpg",
+            "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        }
+      ],
+      "totalAmount": 549,
+      "totalItems": 1,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "dispatched",
+      "id": 1
+    },
+    {
+      "items": [
+        {
+          "title": "iPhone 9",
+          "description": "An apple mobile which is nothing like apple",
+          "price": 456,
+          "discountPercentage": 12.96,
+          "rating": 4.7,
+          "stock": 94,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg"
+          ],
+          "image4": "https://i.dummyjson.com/data/products/1/4.jpg",
+          "image5": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "deleted": true,
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        }
+      ],
+      "totalAmount": 397,
+      "totalItems": 1,
+      "user": {
+        "email": "test@test.com",
+        "password": "Qwert@123",
+        "id": 1,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Ankur Dahiya",
+            "email": "ankur@test.com",
+            "phone": "9876543210",
+            "street": "327 sonipat",
+            "city": "Sonipat",
+            "state": "Haryana",
+            "pinCode": "131001"
+          },
+          {
+            "name": "kjasdh",
+            "email": "test@test.com",
+            "phone": "9832",
+            "street": "askjdh",
+            "city": "kjasdh",
+            "state": "kjashd",
+            "pinCode": "kjashd"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Ankur Dahiya",
+        "email": "ankur@test.com",
+        "phone": "9876543210",
+        "street": "327 sonipat",
+        "city": "Sonipat",
+        "state": "Haryana",
+        "pinCode": "131001"
+      },
+      "status": "cancelled",
+      "id": 2
+    },
+    {
+      "items": [
+        {
+          "title": "Samsung Universe 9",
+          "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+          "price": 1249,
+          "discountPercentage": 15.46,
+          "rating": 4.09,
+          "stock": 36,
+          "brand": "Samsung",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/3/1.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        }
+      ],
+      "totalAmount": 1056,
+      "totalItems": 1,
+      "user": {
+        "email": "test@test.com",
+        "password": "Qwert@123",
+        "id": 1,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Ankur Dahiya",
+            "email": "ankur@test.com",
+            "phone": "9876543210",
+            "street": "327 sonipat",
+            "city": "Sonipat",
+            "state": "Haryana",
+            "pinCode": "131001"
+          },
+          {
+            "name": "kjasdh",
+            "email": "test@test.com",
+            "phone": "9832",
+            "street": "askjdh",
+            "city": "kjasdh",
+            "state": "kjashd",
+            "pinCode": "kjashd"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Ankur Dahiya",
+        "email": "ankur@test.com",
+        "phone": "9876543210",
+        "street": "327 sonipat",
+        "city": "Sonipat",
+        "state": "Haryana",
+        "pinCode": "131001"
+      },
+      "status": "delivered",
+      "id": 3
+    },
+    {
+      "items": [
+        {
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+          "images": [
+            "https://i.dummyjson.com/data/products/6/1.png",
+            "https://i.dummyjson.com/data/products/6/2.jpg",
+            "https://i.dummyjson.com/data/products/6/3.png",
+            "https://i.dummyjson.com/data/products/6/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        }
+      ],
+      "totalAmount": 1556,
+      "totalItems": 1,
+      "user": {
+        "email": "test@test.com",
+        "password": "Qwert@123",
+        "id": 1,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Ankur Dahiya",
+            "email": "ankur@test.com",
+            "phone": "9876543210",
+            "street": "327 sonipat",
+            "city": "Sonipat",
+            "state": "Haryana",
+            "pinCode": "131001"
+          },
+          {
+            "name": "kjasdh",
+            "email": "test@test.com",
+            "phone": "9832",
+            "street": "askjdh",
+            "city": "kjasdh",
+            "state": "kjashd",
+            "pinCode": "kjashd"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Ankur Dahiya",
+        "email": "ankur@test.com",
+        "phone": "9876543210",
+        "street": "327 sonipat",
+        "city": "Sonipat",
+        "state": "Haryana",
+        "pinCode": "131001"
+      },
+      "status": "delivered",
+      "id": 4
+    },
+    {
+      "items": [
+        {
+          "title": "HP Pavilion 15-DK1056WM",
+          "description": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+          "price": 1099,
+          "discountPercentage": 6.18,
+          "rating": 4.43,
+          "stock": 89,
+          "brand": "HP Pavilion",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/10/thumbnail.jpeg",
+          "images": [
+            "https://i.dummyjson.com/data/products/10/1.jpg",
+            "https://i.dummyjson.com/data/products/10/2.jpg",
+            "https://i.dummyjson.com/data/products/10/3.jpg",
+            "https://i.dummyjson.com/data/products/10/thumbnail.jpeg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        }
+      ],
+      "totalAmount": 1031,
+      "totalItems": 1,
+      "user": {
+        "email": "test@test.com",
+        "password": "Qwert@123",
+        "id": 1,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Ankur Dahiya",
+            "email": "ankur@test.com",
+            "phone": "9876543210",
+            "street": "327 sonipat",
+            "city": "Sonipat",
+            "state": "Haryana",
+            "pinCode": "131001"
+          },
+          {
+            "name": "kjasdh",
+            "email": "test@test.com",
+            "phone": "9832",
+            "street": "askjdh",
+            "city": "kjasdh",
+            "state": "kjashd",
+            "pinCode": "kjashd"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Ankur Dahiya",
+        "email": "ankur@test.com",
+        "phone": "9876543210",
+        "street": "327 sonipat",
+        "city": "Sonipat",
+        "state": "Haryana",
+        "pinCode": "131001"
+      },
+      "status": "cancelled",
+      "id": 5
+    },
+    {
+      "items": [
+        {
+          "title": "Orange Essence Food Flavou",
+          "description": "Specifications of Orange Essence Food Flavour For Cakes and Baking Food Item",
+          "price": 14,
+          "discountPercentage": 8.04,
+          "rating": 4.85,
+          "stock": 26,
+          "brand": "Baking Food Items",
+          "category": "groceries",
+          "thumbnail": "https://i.dummyjson.com/data/products/23/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/23/1.jpg",
+            "https://i.dummyjson.com/data/products/23/2.jpg",
+            "https://i.dummyjson.com/data/products/23/3.jpg",
+            "https://i.dummyjson.com/data/products/23/4.jpg",
+            "https://i.dummyjson.com/data/products/23/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 4
+        },
+        {
+          "title": "Fog Scent Xpressio Perfume",
+          "description": "Product details of Best Fog Scent Xpressio Perfume 100ml For Men cool long lasting perfumes for Men",
+          "price": 13,
+          "discountPercentage": 8.14,
+          "rating": 4.59,
+          "stock": 61,
+          "brand": "Fog Scent Xpressio",
+          "category": "fragrances",
+          "thumbnail": "https://i.dummyjson.com/data/products/13/thumbnail.webp",
+          "images": [
+            "https://i.dummyjson.com/data/products/13/1.jpg",
+            "https://i.dummyjson.com/data/products/13/2.png",
+            "https://i.dummyjson.com/data/products/13/3.jpg",
+            "https://i.dummyjson.com/data/products/13/4.jpg",
+            "https://i.dummyjson.com/data/products/13/thumbnail.webp"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 5
+        }
+      ],
+      "totalAmount": 25,
+      "totalItems": 2,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "card",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 6
+    },
+    {
+      "items": [
+        {
+          "title": "Huawei P30",
+          "description": "Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.",
+          "price": 499,
+          "discountPercentage": 10.58,
+          "rating": 4.09,
+          "stock": 32,
+          "brand": "Huawei",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/5/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/5/1.jpg",
+            "https://i.dummyjson.com/data/products/5/2.jpg",
+            "https://i.dummyjson.com/data/products/5/3.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        },
+        {
+          "title": "OPPOF19",
+          "description": "OPPO F19 is officially announced on April 2021.",
+          "price": 280,
+          "discountPercentage": 17.91,
+          "rating": 4.3,
+          "stock": 123,
+          "brand": "OPPO",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/4/1.jpg",
+            "https://i.dummyjson.com/data/products/4/2.jpg",
+            "https://i.dummyjson.com/data/products/4/3.jpg",
+            "https://i.dummyjson.com/data/products/4/4.jpg",
+            "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 2
+        }
+      ],
+      "totalAmount": 676,
+      "totalItems": 2,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 7
+    },
+    {
+      "items": [
+        {
+          "title": "Mornadi Velvet Bed",
+          "description": "Mornadi Velvet Bed Base with Headboard Slats Support Classic Style Bedroom Furniture Bed Set",
+          "price": 40,
+          "discountPercentage": 17,
+          "rating": 4.16,
+          "stock": 140,
+          "brand": "Furniture Bed Set",
+          "category": "furniture",
+          "thumbnail": "https://i.dummyjson.com/data/products/31/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/31/1.jpg",
+            "https://i.dummyjson.com/data/products/31/2.jpg",
+            "https://i.dummyjson.com/data/products/31/3.jpg",
+            "https://i.dummyjson.com/data/products/31/4.jpg",
+            "https://i.dummyjson.com/data/products/31/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        }
+      ],
+      "totalAmount": 33,
+      "totalItems": 1,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 8
+    },
+    {
+      "items": [
+        {
+          "title": "Money Heist Printed Summer T Shirts",
+          "description": "Fabric Jercy, Size: M & L Wear Stylish Dual Stiched",
+          "price": 66,
+          "discountPercentage": 15.97,
+          "rating": 4.9,
+          "stock": 122,
+          "brand": "The Warehouse",
+          "category": "mens-shirts",
+          "thumbnail": "https://i.dummyjson.com/data/products/55/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/55/1.jpg",
+            "https://i.dummyjson.com/data/products/55/2.webp",
+            "https://i.dummyjson.com/data/products/55/3.jpg",
+            "https://i.dummyjson.com/data/products/55/4.jpg",
+            "https://i.dummyjson.com/data/products/55/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        }
+      ],
+      "totalAmount": 55,
+      "totalItems": 1,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 9
+    },
+    {
+      "items": [
+        {
+          "title": "Square Sunglasses",
+          "description": "Fashion Oversized Square Sunglasses Retro Gradient Big Frame Sunglasses For Women One Piece Gafas Shade Mirror Clear Lens 17059",
+          "price": 28,
+          "discountPercentage": 13.89,
+          "rating": 4.64,
+          "stock": 64,
+          "brand": "mastar watch",
+          "category": "sunglasses",
+          "thumbnail": "https://i.dummyjson.com/data/products/84/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/84/1.jpg",
+            "https://i.dummyjson.com/data/products/84/2.jpg",
+            "https://i.dummyjson.com/data/products/84/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        }
+      ],
+      "totalAmount": 24,
+      "totalItems": 1,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 10
+    },
+    {
+      "items": [
+        {
+          "title": "Stainless Steel Women",
+          "description": "Fashion Skmei 1830 Shell Dial Stainless Steel Women Wrist Watch Lady Bracelet Watch Quartz Watches Ladies",
+          "price": 35,
+          "discountPercentage": 8.98,
+          "rating": 4.08,
+          "stock": 111,
+          "brand": "Bracelet",
+          "category": "womens-watches",
+          "thumbnail": "https://i.dummyjson.com/data/products/70/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/70/1.jpg",
+            "https://i.dummyjson.com/data/products/70/2.jpg",
+            "https://i.dummyjson.com/data/products/70/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 1
+        }
+      ],
+      "totalAmount": 32,
+      "totalItems": 1,
+      "user": {
+        "email": "demo@test.com",
+        "password": "Qwert@123",
+        "id": 2,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Nikhil Dahiya",
+            "email": "nikhil@test.com",
+            "phone": "9999999999",
+            "street": "982 asdh",
+            "city": "akldj",
+            "state": "lkj",
+            "pinCode": "99382"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nikhil Dahiya",
+        "email": "nikhil@test.com",
+        "phone": "9999999999",
+        "street": "982 asdh",
+        "city": "akldj",
+        "state": "lkj",
+        "pinCode": "99382"
+      },
+      "status": "pending",
+      "id": 11
+    },
+    {
+      "items": [
+        {
+          "title": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/2/1.jpg",
+            "https://i.dummyjson.com/data/products/2/2.jpg",
+            "https://i.dummyjson.com/data/products/2/3.jpg",
+            "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+          ],
+          "productId": 2,
+          "quantity": 1,
+          "user": 1,
+          "id": 1
+        },
+        {
+          "title": "iPhone 9",
+          "description": "An apple mobile which is nothing like apple",
+          "price": 456,
+          "discountPercentage": 12.96,
+          "rating": 4.7,
+          "stock": 94,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg"
+          ],
+          "image4": "https://i.dummyjson.com/data/products/1/4.jpg",
+          "image5": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "deleted": true,
+          "productId": 1,
+          "quantity": 1,
+          "user": 1,
+          "id": 2
+        },
+        {
+          "title": "Samsung Galaxy Book",
+          "description": "Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched",
+          "price": 1499,
+          "discountPercentage": 4.15,
+          "rating": 4.25,
+          "stock": 50,
+          "brand": "Samsung",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/7/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/7/1.jpg",
+            "https://i.dummyjson.com/data/products/7/2.jpg",
+            "https://i.dummyjson.com/data/products/7/3.jpg",
+            "https://i.dummyjson.com/data/products/7/thumbnail.jpg"
+          ],
+          "productId": 7,
+          "quantity": 1,
+          "user": 1,
+          "id": 3
+        }
+      ],
+      "totalAmount": 2572,
+      "totalItems": 3,
+      "user": {
+        "email": "test@test.com",
+        "password": "Qwert@123",
+        "id": 1,
+        "role": "user",
+        "addresses": [
+          {
+            "name": "Ankur Dahiya",
+            "email": "ankur@test.com",
+            "phone": "9876543210",
+            "street": "327 sonipat",
+            "city": "Sonipat",
+            "state": "Haryana",
+            "pinCode": "131001"
+          },
+          {
+            "name": "kjasdh",
+            "email": "test@test.com",
+            "phone": "9832",
+            "street": "askjdh",
+            "city": "kjasdh",
+            "state": "kjashd",
+            "pinCode": "kjashd"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Ankur Dahiya",
+        "email": "ankur@test.com",
+        "phone": "9876543210",
+        "street": "327 sonipat",
+        "city": "Sonipat",
+        "state": "Haryana",
+        "pinCode": "131001"
+      },
+      "status": "pending",
+      "id": 12
+    }
+  ]
+}

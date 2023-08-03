@@ -14,11 +14,11 @@ const user = {
   }
   const navigation = [
     // if user not logged in show guest
-    { name: 'Dashboard', link: '#', user: true,guest: false },
+    { name: 'Products', link: '/', user: true,guest: true },
     { name: 'Team', link: '#', user: true,guest: false },
     { name: 'Projects', link: '#', user: true,guest: false },
-    { name: 'Calendar', link: '#', user: true,guest: true },
-    { name: 'Admin', link: '/admin', admin: true,guest: false },
+    { name: 'Products', link: '/admin', admin: true,guest: false },
+    { name: 'Orders', link: '/admin/orders', admin: true,guest: false },
   ]
   const userNavigation = [
     { name: 'My Profile', link: '/profile' },
