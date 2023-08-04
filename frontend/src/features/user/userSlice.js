@@ -103,6 +103,8 @@ export const { increment} = userSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
+
+// TODO: change orders and address to be independent of user
 export const selectUserOrders = (state) => state.user.userOrders;
 export const selectUserInfo = (state) => state.user.userInfo;
 

@@ -19,4 +19,4 @@ brandSchema.set("toJSON",{
     transform : function (doc,ret){delete ret._id}
 })
 
-exports.brandModel = mongoose.model("Brand",brandSchema);
+exports.brandModel = mongoose.model("brand",brandSchema);

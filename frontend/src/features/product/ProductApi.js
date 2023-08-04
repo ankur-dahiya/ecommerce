@@ -56,8 +56,8 @@ export function fecthProductsByFilters({filter,sort,pagination}) {
   }
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/products/?${queryString}`);
-    const data = await response.json();
     const totalItems = response.headers.get("X-Total-Count");
+    const data = await response.json();
     resolve({data:{products : data,totalItems:+totalItems}});
   }
   );

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { selectItems } from '../cart/cartSlice'
 import { selectUserInfo } from '../user/userSlice'
 
+// TODO: this user info should come from backend
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
