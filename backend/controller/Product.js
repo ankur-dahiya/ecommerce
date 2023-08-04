@@ -18,8 +18,13 @@ exports.fetchAllProducts = async (req,res)=>{
   // todo : on server we will support multiple values
   // TODO: server will filter deleted products in case of non-admin
 //   TODO: we have to try with multiple category and brands after change in front-end
-    let query = productModel.find({deleted:{$ne:true}});
-    let totalProductQuery = productModel.find({deleted:{$ne:true}});
+    let condition={};
+    // if user is not admin don't send deleted products
+    if(!req.query.isAdmin){
+        condition.deleted = {$ne:true}
+    }
+    let query = productModel.find(condition);
+    let totalProductQuery = productModel.find(condition);
     if(req.query.category){
         query = query.find({category : req.query.category});
         totalProductQuery = totalProductQuery.find({category : req.query.category});

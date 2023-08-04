@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 
 export default function ProductForm() {
   // TODO: cancel button functionality
+  // TODO: product out of stock warning
+  // TODO: add 4 images product section
     const dispatch = useDispatch();
     const categories = useSelector(selectAllCategories);
     const brands = useSelector(selectAllBrands);
@@ -52,10 +54,11 @@ export default function ProductForm() {
     <form className="space-y-6" noValidate onSubmit={handleSubmit((data)=>{
       // formating received form data into product format
         let product = {...data};
-        product.images = [product.image1,product.image2,product.image3];
+        product.images = [product.image1,product.image2,product.image3,product.image4];
         delete product.image1;
         delete product.image2;
         delete product.image3;
+        delete product.image4;
         product.price = +product.price;
         product.discountPercentage = +product.discountPercentage;
         product.stock = +product.stock;
@@ -246,6 +249,21 @@ export default function ProductForm() {
                 </div>
               </div>
             </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="image3" className="block text-sm font-medium leading-6 text-gray-900">
+                Image 4
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...register("image4",{required: "product image4 is required"})}
+                    id="image3"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -316,8 +334,8 @@ export default function ProductForm() {
         </button>
 
         {selectedProduct && <button
+          type="button"
           onClick={handleDelete}
-          type="submit"
           className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Delete

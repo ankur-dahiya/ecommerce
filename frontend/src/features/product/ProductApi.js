@@ -1,12 +1,4 @@
 // A mock function to mimic making an async request for data
-export function fecthAllProducts() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products");
-    const data = await response.json();
-    resolve({data});
-  }
-  );
-}
 
 export function fecthProductById(id) {
   return new Promise(async (resolve) => {
@@ -34,12 +26,13 @@ export function fecthAllBrands() {
   );
 }
 
-export function fecthProductsByFilters({filter,sort,pagination}) {
+export function fecthProductsByFilters({filter,sort,pagination,isAdmin}) {
   // filter = {"category" : ["laptop","smartphone"]}
   // sort = {_sort:"price",_order:"desc"}
   // pagination = {_page=1,_limit=10}
   // todo : on server we will support multiple values
   // TODO: server will filter deleted products in case of non-admin
+  // TODO: we can send userId from frontend and check on backend if user is admin or a user
   let queryString = "";
   for(let key in filter){
     const categoryValues = filter[key];
@@ -53,6 +46,9 @@ export function fecthProductsByFilters({filter,sort,pagination}) {
   }
   for(let key in pagination){
     queryString += `${key}=${pagination[key]}&`
+  }
+  if(isAdmin){
+    queryString += `isAdmin=true`
   }
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/products/?${queryString}`);

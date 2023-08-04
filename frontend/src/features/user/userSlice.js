@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { clearLoggedInUser, fetchLoggedInUser, fetchLoggedInUserOrders, updateUser } from './userApi';
 
 const initialState = {
-  userOrders: [],
   userInfo : null, //this will contain detailed user info,while auth will only be used for loggedInUser id checks
   status: 'idle',
 };
@@ -71,7 +70,7 @@ export const userSlice = createSlice({
       .addCase(fetchLoggedInUserOrdersAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         // this info can be different or more from logged-in user info
-        state.userOrders = action.payload;
+        state.userInfo.orders = action.payload;
       })
       .addCase(updateUserAsync.pending, (state) => {
         state.status = 'loading';
@@ -105,7 +104,7 @@ export const { increment} = userSlice.actions;
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 
 // TODO: change orders and address to be independent of user
-export const selectUserOrders = (state) => state.user.userOrders;
+export const selectUserOrders = (state) => state.user.userInfo.orders;
 export const selectUserInfo = (state) => state.user.userInfo;
 
 export default userSlice.reducer;
