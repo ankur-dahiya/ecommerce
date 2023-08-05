@@ -10,7 +10,7 @@ export default function Logout(){
     useEffect(()=>{
         if(user){
             // TODO: we'll need to reset frontend cart on logout
-            dispatch(signOutAsync(user.id));
+            dispatch(signOutAsync());
             // reset loggedin user details
             dispatch(clearLoggedInUserAsync());
         }

@@ -20,7 +20,7 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import UserOrdersPage from './pages/UserOrdersPage';
 import UserProfilePage from './pages/UserProfilePage';
 import { fetchLoggedInUserAsync, selectUserInfo } from './features/user/userSlice';
-import { selectLoggedInUser } from './features/auth/authSlice';
+import { checkAuthAsync, selectLoggedInUser, selectUserChecked } from './features/auth/authSlice';
 import Logout from './features/auth/components/Logout';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AdminHome from './pages/AdminHome';
@@ -40,6 +40,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
+      // TODO fix: redirecting on reload all protected admin pages
       <ProtectedAdmin><AdminHome></AdminHome></ProtectedAdmin>
     ),
   },
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
     ),
   },
   {
+    //crashing on reload
     path: "/checkout",
     element: (
       <Protected><Checkout></Checkout></Protected>
@@ -108,19 +110,19 @@ const router = createBrowserRouter([
   {
     path: "/order-success/:id",
     element: (
-      <OrderSuccessPage></OrderSuccessPage>
+      <Protected><OrderSuccessPage></OrderSuccessPage></Protected>
     ),
   },
   {
     path: "/orders",
     element: (
-      <UserOrdersPage></UserOrdersPage>
+      <Protected><UserOrdersPage></UserOrdersPage></Protected>
     ),
   },
   {
     path: "/profile",
     element: (
-      <UserProfilePage></UserProfilePage>
+      <Protected><UserProfilePage></UserProfilePage></Protected>
     ),
   },
   {
@@ -146,15 +148,20 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
+  const userChecked = useSelector(selectUserChecked);
+  useEffect(()=>{
+    dispatch(checkAuthAsync());
+  },[])
   useEffect(()=>{
     if(user){
-      dispatch(fetchItemsByIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id));
+      dispatch(fetchItemsByIdAsync());
+      // we can get req.user by token of backend so no need to give in front-end
+      dispatch(fetchLoggedInUserAsync());
     }
   },[user]);
   return (
     <div className="App">
-      <RouterProvider router={router}/>
+      {userChecked && <RouterProvider router={router}/>}
     </div>
   );
 }

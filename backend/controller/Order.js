@@ -1,9 +1,9 @@
 const { orderModel } = require("../model/Order");
 
 exports.fetchOrdersByUser = async (req,res)=>{
-    const {userId} = req.params;
+    const {id} = req.user;
     try{
-        const orders = await orderModel.find({user:userId});
+        const orders = await orderModel.find({user:id});
         res.status(200).json(orders);
     }
     catch(err){
@@ -13,7 +13,8 @@ exports.fetchOrdersByUser = async (req,res)=>{
 }
 
 exports.createOrder = async (req,res)=>{
-    const order = new orderModel(req.body);
+    const {id} = req.user;
+    const order = new orderModel({...req.body,user:id});
     try{
         const doc = await order.save();
         return res.status(201).json(doc);

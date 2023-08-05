@@ -51,7 +51,7 @@ export default function ProductDetail() {
   function handleCart(e){
     e.preventDefault();
     if(items.findIndex(item=>item.product.id===product.id)<0){
-      const newItem = {product:product.id,quantity:1,user:user.id};
+      const newItem = {product:product.id,quantity:1};
       dispatch(addToCartAsync(newItem));
     }
   }

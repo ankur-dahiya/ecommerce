@@ -41,17 +41,17 @@ export function deleteItemFromCart(itemId) {
   );
 }
 
-export function fetchItemsById(userId){
+export function fetchItemsById(){
   return new Promise(async(resolve)=>{
-    const response = await fetch("http://localhost:8080/cart?user="+userId);
+    const response = await fetch("http://localhost:8080/cart");
     const data = await response.json();
     resolve({data});
   })
 }
 
-export function resetCart(userId) {
+export function resetCart() {
   return new Promise(async (resolve) => {
-    const response = await fetchItemsById(userId);
+    const response = await fetchItemsById();
     const data = response.data;
     for(const item of data){
       await deleteItemFromCart(item.id);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  checkUserAsync,
+  loginUserAsync,
   selectError
 } from '../authSlice';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -34,7 +34,7 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" noValidate onSubmit={handleSubmit((data)=>{
-            dispatch(checkUserAsync({email: data.email,password: data.password}))
+            dispatch(loginUserAsync({email: data.email,password: data.password}))
           })}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">

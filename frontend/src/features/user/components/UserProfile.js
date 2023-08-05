@@ -47,6 +47,7 @@ export default function UserProfile() {
   // TODO(optional) : reuse form code for both add and edit address
   return (
     <div>
+      {userInfo && 
       <div className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
         <div className="px-4 py-6 sm:px-6">
           <h1 className="text-4xl font-bold my-12 tracking-tight text-gray-900">
@@ -467,7 +468,7 @@ export default function UserProfile() {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

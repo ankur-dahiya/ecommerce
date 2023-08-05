@@ -9,21 +9,136 @@ const usersRouter = require("./routes/Users");
 const authRouter = require("./routes/Auth");
 const cartRouter = require("./routes/Cart");
 const ordersRouter = require("./routes/Order");
+const session = require("express-session");
+const passport = require("passport");
+const crypto = require("crypto");
+const LocalStrategy = require("passport-local").Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const {isAuth, sanitizeUser, cookieExtractor} = require("./services/common");
+const { userModel } = require("./model/User");
 
-server.use(express.json()); //to parse req.body
+
+const SECRET_KEY = "SECRET_KEY";//TODO: should not be in code
+// JWT options
+
+const opts = {}
+opts.jwtFromRequest = cookieExtractor;
+opts.secretOrKey = SECRET_KEY; 
+
+// middlewares
+server.use(express.static("build"));
+server.use(cookieParser());
+server.use(session({
+    secret: 'keyboard cat',
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+}));
+server.use(passport.authenticate("session"));
 server.use(cors({
     exposedHeaders:["X-Total-Count"]
 }));
+server.use(express.json()); //to parse req.body
 server.use("/products",productsRouter.router);
 server.use("/brands",brandsRouter.router);
 server.use("/categories",categoriesRouter.router);
-server.use("/users",usersRouter.router);
+server.use("/users",isAuth(),usersRouter.router); //we can also use JWT token for client only auth
 server.use("/auth",authRouter.router);
-server.use("/cart",cartRouter.router);
-server.use("/orders",ordersRouter.router);
+server.use("/cart",isAuth(),cartRouter.router);
+server.use("/orders",isAuth(),ordersRouter.router);
+
+// passport strategies
+passport.use("local",new LocalStrategy({usernameField:"email"},
+    // done means next()
+    async function(email, password, done) {
+        // by default passport uses username
+        try{
+            const user = await userModel.findOne({email});
+            if(!user){
+                done(null,false,{message:"User not found"})
+            }
+            crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', async function(err, hashedPassword){
+            if(crypto.timingSafeEqual(user.password, hashedPassword)){
+                const token = jwt.sign(sanitizeUser(user),SECRET_KEY);
+                done(null,sanitizeUser(user)); //this get sent to serialize and next callback
+            }
+            else{
+                done(null,false,{message:"Invalid Credentials"})
+            }
+        })
+        }
+        catch(err){
+            done(err);
+        }
+    }
+));
+
+passport.use("jwt",new JwtStrategy(opts, async function(jwt_payload, done) {
+    try{
+        // jwt_payload will contain the decrypted values from bearer token
+        // jwt_payload will contain id,role,iat
+        const user = await userModel.findById(jwt_payload.id);
+        if (user) {
+            return done(null, sanitizeUser(user)); //this calls serializer
+        } else {
+            return done(null, false);
+        }
+    }
+    catch(err){
+        return done(err, false);
+    }    
+    })
+);
+
+// this creates session variable req.user on being called
+passport.serializeUser(function(user, cb) {
+    process.nextTick(function() {
+        return cb(null, user);
+    });
+});
+
+// this changes session variable to req.user when called from authorized request
+//this gets the userinfo from session/cookies
+  passport.deserializeUser(function(user, cb) {
+    process.nextTick(function() {
+      return cb(null, user);
+    });
+  });
 
 
+// Payments
+
+// This is your test secret API key.
+const stripe = require("stripe")('sk_test_51NbjJASHNMrFtO0SiWGOpx9HmIUr91rvoKDEMJkChVn1TKzMSfyI0tpXureqYEWrkf8Q4GrWEz0ysO1c1hFVPojj0050fri2Lr');
+
+const calculateOrderAmount = (items) => {
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+  return 1400;
+};
+
+server.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "inr",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
+
+//mongoose
 main().catch((err)=>{
     console.log("mongoose "+err);
 })
@@ -33,13 +148,7 @@ async function main(){
     console.log("mongoose connected");
 }
 
-
-server.get("/",(req,res)=>{
-    res.json({status:"success"});
-})
-
-server.post("/products",createProduct);
-
+//server 
 server.listen(8080,()=>{
     console.log("server started");
 })

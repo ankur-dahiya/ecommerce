@@ -3,12 +3,13 @@ const {Schema} = mongoose;
 
 const userSchema = new Schema({
     email: {type: String,required: true, unique : true},
-    password : {type: String,required: true},
+    password : {type: Buffer,required: true},
     role : {type: String,required:true,default:"user"},
     // TODO: we can make a separate schema for address
     addresses : {type: [Schema.Types.Mixed]},
     name : {type : String,default:"anonymous"},
     orders : {type: [Schema.Types.Mixed]},
+    salt : Buffer
 });
 
 // on response it will return _id: objectId("64cb2f15f964d410f2725515") as id : "64cb2f15f964d410f2725515"

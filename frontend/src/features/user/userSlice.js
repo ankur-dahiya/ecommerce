@@ -3,7 +3,7 @@ import { clearLoggedInUser, fetchLoggedInUser, fetchLoggedInUserOrders, updateUs
 
 const initialState = {
   userInfo : null, //this will contain detailed user info,while auth will only be used for loggedInUser id checks
-  status: 'idle',
+  status: 'idle'
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -13,8 +13,8 @@ const initialState = {
 // typically used to make async requests.
 export const fetchLoggedInUserOrdersAsync = createAsyncThunk(
   'user/fetchLoggedInUserOrdersAsync',
-  async (userId) => {
-    const response = await fetchLoggedInUserOrders(userId);
+  async () => {
+    const response = await fetchLoggedInUserOrders();
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -22,8 +22,8 @@ export const fetchLoggedInUserOrdersAsync = createAsyncThunk(
 
 export const fetchLoggedInUserAsync = createAsyncThunk(
   'user/fetchLoggedInUserAsync',
-  async (userId) => {
-    const response = await fetchLoggedInUser(userId);
+  async () => {
+    const response = await fetchLoggedInUser();
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }

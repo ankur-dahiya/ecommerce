@@ -9,8 +9,11 @@ import {
 } from "../../order/orderSlice";
 import Pagination from "../../common/Pagination";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/outline";
+import { selectUserInfo } from "../../user/userSlice";
 
 export default function AdminOrders() {
+  // TODO: don't redirect on reload
+  const userInfo = useSelector(selectUserInfo);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [editableOrderId,setEditableOrderId] = useState(-1);

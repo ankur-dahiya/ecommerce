@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { checkUser, createUser, signOut } from './authApi';
+import { loginUser, createUser, signOut, checkAuth } from './authApi';
 import { updateUser } from '../user/userApi';
 
 const initialState = {
-  loggedInUser : null,
+  loggedInUserToken : null,
   status: 'idle',
-  error: null
+  error: null,
+  userChecked: false
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -22,10 +23,19 @@ export const createUserAsync = createAsyncThunk(
   }
 );
 
-export const checkUserAsync = createAsyncThunk(
-  'auth/checkUserAsync',
+export const loginUserAsync = createAsyncThunk(
+  'auth/loginUserAsync',
   async (loginInfo) => {
-    const response = await checkUser(loginInfo);
+    const response = await loginUser(loginInfo);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const checkAuthAsync = createAsyncThunk(
+  'auth/checkAuthAsync',
+  async () => {
+    const response = await checkAuth();
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -33,8 +43,8 @@ export const checkUserAsync = createAsyncThunk(
 
 export const signOutAsync = createAsyncThunk(
   'auth/signOutAsync',
-  async (userId) => {
-    const response = await signOut(userId);
+  async () => {
+    const response = await signOut();
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -62,19 +72,33 @@ export const counterSlice = createSlice({
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.loggedInUser = action.payload;
+        state.loggedInUserToken = action.payload;
       })
-      .addCase(checkUserAsync.pending, (state) => {
+      .addCase(loginUserAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(checkUserAsync.fulfilled, (state, action) => {
+      .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.error = null;
-        state.loggedInUser = action.payload;
+        state.loggedInUserToken = action.payload;
       })
-      .addCase(checkUserAsync.rejected, (state, action) => {
+      .addCase(loginUserAsync.rejected, (state, action) => {
         state.status = 'idle';
         state.error = action.error;
+      })
+      .addCase(checkAuthAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.error = null;
+        state.loggedInUserToken = action.payload;
+        state.userChecked = true;
+      })
+      .addCase(checkAuthAsync.rejected, (state, action) => {
+        state.status = 'idle';
+        state.error = action.error;
+        state.userChecked = true;
+      })
+      .addCase(checkAuthAsync.pending, (state, action) => {
+        state.status = 'loading';
       })
       .addCase(signOutAsync.pending, (state) => {
         state.status = 'loading';
@@ -82,7 +106,7 @@ export const counterSlice = createSlice({
       .addCase(signOutAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.error = null;
-        state.loggedInUser = null;
+        state.loggedInUserToken = null;
       })
     },
 });
@@ -92,7 +116,8 @@ export const { increment} = counterSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectLoggedInUser = (state) => state.auth.loggedInUser;
+export const selectLoggedInUser = (state) => state.auth.loggedInUserToken;
 export const selectError = (state) => state.auth.error;
+export const selectUserChecked = (state) => state.auth.userChecked;
 
 export default counterSlice.reducer;

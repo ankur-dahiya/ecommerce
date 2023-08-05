@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 export default function ProductForm() {
   // TODO: cancel button functionality
   // TODO: product out of stock warning
-  // TODO: add 4 images product section
     const dispatch = useDispatch();
     const categories = useSelector(selectAllCategories);
     const brands = useSelector(selectAllBrands);

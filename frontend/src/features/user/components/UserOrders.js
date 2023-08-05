@@ -6,14 +6,13 @@ import { discountedPrice } from '../../../app/constants';
 
 export default function UserOrders() {
   const dispatch = useDispatch();
-  const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
   useEffect(()=>{
-   dispatch(fetchLoggedInUserOrdersAsync(userInfo.id)); 
-  },[])
+      dispatch(fetchLoggedInUserOrdersAsync()); 
+  },[dispatch])
   return (
     <div>
-      {orders.map(order=><div key={order.id} className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
+      {orders && orders.map(order=><div key={order.id} className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
         <div className="px-4 py-6 sm:px-6">
         <h1 className="text-4xl font-bold my-12 tracking-tight text-gray-900">Order #{order.id}</h1>
         <h3 className="text-xl font-bold my-12 tracking-tight text-red-900">Order Status: {order.status}</h3>

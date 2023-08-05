@@ -11,7 +11,7 @@ export default function OrderSuccessPage() {
   const user = useSelector(selectUserInfo);
   const id = params.id;
   useEffect(()=>{
-    dispatch(resetCartAsync(user.id));
+    dispatch(resetCartAsync());
     dispatch(resetOrder());
   },[dispatch,user])
   return (

@@ -3,11 +3,12 @@ import { Navigate } from "react-router-dom";
 import { selectUserInfo } from "../../user/userSlice";
 
 export default function ProtectedAdmin({children}){
-    const user = useSelector(selectUserInfo);
-    if(!user){
+    // TODO: don't redirect on reload
+    const userInfo = useSelector(selectUserInfo);
+    if(!userInfo){
         return <Navigate to="/login" replace={true}></Navigate>
     }
-    if(user && user.role!=="admin"){
+    if(userInfo && userInfo.role!=="admin"){
         return <Navigate to="/" replace={true}></Navigate>
     }
     

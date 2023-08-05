@@ -34,7 +34,7 @@ const user = {
 
 export default function Navbar({children}){
     const items = useSelector(selectItems);
-    const user1 = useSelector(selectUserInfo);
+    const userInfo = useSelector(selectUserInfo);
 
     return (
         <>
@@ -58,7 +58,7 @@ export default function Navbar({children}){
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item,index) => (
                           // if user exists check his role else show guest options
-                          (user1 ? item[user1.role] : item.guest) ? <Link
+                          (userInfo ? item[userInfo.role] : item.guest) ? <Link
                             key={index}
                             to={item.link}
                             className={classNames(

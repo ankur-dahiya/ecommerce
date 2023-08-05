@@ -12,6 +12,7 @@ import { selectUserInfo } from '../features/user/userSlice';
 import { discountedPrice } from '../app/constants';
 
 export default function Checkout() {
+  // TODO: crashing on reload
   const dispatch = useDispatch();
   const user = useSelector(selectUserInfo);
   const addresses = user.addresses;
@@ -42,7 +43,6 @@ export default function Checkout() {
       items,
       totalAmount,
       totalItems,
-      user : user.id,
       paymentMethod,
       selectedAddress,
       status : "pending" //other status can be delivered,received

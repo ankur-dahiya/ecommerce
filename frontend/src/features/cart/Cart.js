@@ -2,6 +2,7 @@ import React, { useState,Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   deleteItemFromCartAsync,
+  selectCartLoaded,
   selectItems, updateCartAsync,
 } from './cartSlice';
 import { Link, Navigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ export default function Cart() {
   // const count = useSelector(selectCount);
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
+  const cartLoaded = useSelector(selectCartLoaded);
   const totalAmount = items.reduce((amount,item)=>(
     discountedPrice(item.product) * item.quantity + amount
   ),0)
@@ -26,7 +28,7 @@ export default function Cart() {
 
   return (
     <>
-    {!totalItems && <Navigate to="/"></Navigate>}
+    {!totalItems && cartLoaded && <Navigate to="/"></Navigate>}
       <div className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
         <div className="px-4 py-6 sm:px-6">
         <h1 className="text-4xl font-bold my-12 tracking-tight text-gray-900">Cart</h1>

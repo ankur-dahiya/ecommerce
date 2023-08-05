@@ -48,6 +48,7 @@ export default function AdminProductList() {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);
+  // TODO: don't redirect on reload
 
   const filters = [
     {

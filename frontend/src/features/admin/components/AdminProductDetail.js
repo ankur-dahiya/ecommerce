@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectProductById,fecthProductByIdAsync } from '../../product/productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
-import { selectUserInfo } from '../../user/userSlice';
 import { discountedPrice } from '../../../app/constants';
 
 // TODO: in server data we will add colors,sizes,highlights to each product
@@ -41,12 +40,11 @@ export default function AdminProductDetail() {
   const [selectedSize, setSelectedSize] = useState(sizes[2])
   const params = useParams();
   let product = useSelector(selectProductById);
-  const user = useSelector(selectUserInfo);
   // TODO: solve the issue where previous images are showing(solved! but slow)
 
   function handleCart(e){
     e.preventDefault();
-    const newItem = {...product,quantity:1,user:user.id};
+    const newItem = {...product,quantity:1};
     delete newItem["id"];
     dispatch(addToCartAsync(newItem));
   }
