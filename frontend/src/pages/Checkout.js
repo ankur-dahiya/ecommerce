@@ -48,8 +48,6 @@ export default function Checkout() {
       status : "pending" //other status can be delivered,received
     };
     dispatch(createOrderAsync(order));
-    // TODO: redirect to order-success page
-    // TODO: clear cart after order
     // TODO : on server change the stock number of items
   }
   const {
@@ -62,7 +60,8 @@ export default function Checkout() {
     return (
         <>
         {!totalItems && <Navigate to="/"></Navigate>}
-        {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`}></Navigate>}
+        {currentOrder && currentOrder.paymentMethod === "cash" && <Navigate to={`/order-success/${currentOrder.id}`}></Navigate>}
+        {currentOrder && currentOrder.paymentMethod === "card" && <Navigate to={`/stripe-checkout/`}></Navigate>}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                 <div className='lg:col-span-3'>

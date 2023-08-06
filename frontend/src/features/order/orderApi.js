@@ -1,7 +1,8 @@
 // A mock function to mimic making an async request for data
+const HOST = process.env.REACT_APP_HOST || "";
 export function createOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/orders",{
+    const response = await fetch(HOST+"/orders",{
       method : "POST",
       headers : {
         "Content-Type" : "application/json"
@@ -16,7 +17,7 @@ export function createOrder(order) {
 
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/orders/"+order.id,{
+    const response = await fetch(HOST+"/orders/"+order.id,{
       method : "PATCH",
       headers : {
         "Content-Type" : "application/json"
@@ -39,7 +40,7 @@ export function fecthAllOrders({sort,pagination}) {
     queryString += `${key}=${pagination[key]}&`
   }
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/orders/?${queryString}`);
+    const response = await fetch(HOST+`/orders/?${queryString}`);
     const data = await response.json();
     const totalOrders = response.headers.get("X-Total-Count");
     resolve({data:{orders : data,totalOrders:+totalOrders}});

@@ -2,7 +2,6 @@ const { userModel } = require("../model/User");
 const crypto = require("crypto");
 const { sanitizeUser } = require("../services/common");
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "SECRET_KEY";
 
 exports.createUser = async (req,res)=>{
     try{
@@ -19,7 +18,7 @@ exports.createUser = async (req,res)=>{
                     res.status(400).json(err);
                 }
                 else{
-                    const token = jwt.sign(sanitizeUser(savedUser),SECRET_KEY);
+                    const token = jwt.sign(sanitizeUser(savedUser),process.env.JWT_SECRET_KEY);
                     res.status(201).cookie('jwt', token, { expires: new Date(Date.now() + 3600000), httpOnly: true }).json(req.user);
                 }
             });
@@ -32,7 +31,10 @@ exports.createUser = async (req,res)=>{
 exports.loginUser = async (req,res)=>{
     //req.user is created by passport.js after user is authenticated
     // TODO: we'll need token to set as cookie on front end
-    res.status(200).cookie('jwt', req.user.token, { expires: new Date(Date.now() + 3600000), httpOnly: true }).json(req.user);
+    const user = req.user; //this contains sanitize user and token
+    res.status(200).
+    cookie('jwt', user.token, { expires: new Date(Date.now() + 3600000), httpOnly: true })
+    .json(sanitizeUser(user));
 }
 exports.checkAuth = async (req,res)=>{
     if(req.user){

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const server = express();
 const {createProduct} = require("./controller/Product");
@@ -21,19 +22,50 @@ const cookieParser = require("cookie-parser");
 const {isAuth, sanitizeUser, cookieExtractor} = require("./services/common");
 const { userModel } = require("./model/User");
 
-
-const SECRET_KEY = "SECRET_KEY";//TODO: should not be in code
+const PORT = process.env.PORT;
 // JWT options
-
 const opts = {}
 opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = SECRET_KEY; 
+opts.secretOrKey = process.env.JWT_SECRET_KEY; 
+
+
+
+// webhook
+const endpointSecret = process.env.ENDPOINT_SECRET;
+// TODO: we will capture actual order after deploying out server live on public url
+server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    const sig = request.headers['stripe-signature'];
+  
+    let event;
+  
+    try {
+      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    } catch (err) {
+        console.log(err);
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+  
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntentSucceeded = event.data.object;
+        // Then define and call a function to handle the event payment_intent.succeeded
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+  
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  });
 
 // middlewares
 server.use(express.static("build"));
 server.use(cookieParser());
 server.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SESSION_KEY,
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
 }));
@@ -41,6 +73,7 @@ server.use(passport.authenticate("session"));
 server.use(cors({
     exposedHeaders:["X-Total-Count"]
 }));
+// server.use(express.raw({type: 'application/json'}));
 server.use(express.json()); //to parse req.body
 server.use("/products",productsRouter.router);
 server.use("/brands",brandsRouter.router);
@@ -62,8 +95,9 @@ passport.use("local",new LocalStrategy({usernameField:"email"},
             }
             crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', async function(err, hashedPassword){
             if(crypto.timingSafeEqual(user.password, hashedPassword)){
-                const token = jwt.sign(sanitizeUser(user),SECRET_KEY);
-                done(null,sanitizeUser(user)); //this get sent to serialize and next callback
+                const token = jwt.sign(sanitizeUser(user),process.env.JWT_SECRET_KEY);
+                const sanitizedUser = sanitizeUser(user);
+                done(null,{...sanitizedUser,token}); //this get sent to serialize and next callback
             }
             else{
                 done(null,false,{message:"Invalid Credentials"})
@@ -112,21 +146,15 @@ passport.serializeUser(function(user, cb) {
 // Payments
 
 // This is your test secret API key.
-const stripe = require("stripe")('sk_test_51NbjJASHNMrFtO0SiWGOpx9HmIUr91rvoKDEMJkChVn1TKzMSfyI0tpXureqYEWrkf8Q4GrWEz0ysO1c1hFVPojj0050fri2Lr');
+const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
-};
 
 server.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  const { totalAmount } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
+    amount: totalAmount*100, //for decimal compensation
     currency: "inr",
     automatic_payment_methods: {
       enabled: true,
@@ -136,7 +164,7 @@ server.post("/create-payment-intent", async (req, res) => {
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
-});
+});  
 
 //mongoose
 main().catch((err)=>{
@@ -144,11 +172,10 @@ main().catch((err)=>{
 })
 
 async function main(){
-    await mongoose.connect("mongodb://127.0.0.1:27017/ecommerce");
-    console.log("mongoose connected");
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("mongodb connected");
 }
-
 //server 
-server.listen(8080,()=>{
-    console.log("server started");
+server.listen(PORT,()=>{
+    console.log("server started on port: "+PORT);
 })

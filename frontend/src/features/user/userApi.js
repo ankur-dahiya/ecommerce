@@ -1,7 +1,8 @@
 // A mock function to mimic making an async request for data
+const HOST = process.env.REACT_APP_HOST || "";
 export function fetchLoggedInUserOrders() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/orders/own/");
+    const response = await fetch(HOST+"/orders/own/");
     const data = await response.json();
     resolve({data});
   }
@@ -10,7 +11,7 @@ export function fetchLoggedInUserOrders() {
 
 export function fetchLoggedInUser() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/users/own");
+    const response = await fetch(HOST+"/users/own");
     const data = await response.json();
     resolve({data});
   }
@@ -27,7 +28,7 @@ export function clearLoggedInUser() {
 
 export function updateUser(updateData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/users/",{
+    const response = await fetch(HOST+"/users/",{
       method : "PATCH",
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify(updateData)
