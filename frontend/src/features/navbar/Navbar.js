@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectItems } from '../cart/cartSlice'
 import { selectUserInfo } from '../user/userSlice'
+import logo from "../../logo/logo_transparent.png";
 
 // TODO: this user info should come from backend
 const user = {
@@ -23,7 +24,7 @@ const user = {
   ]
   const userNavigation = [
     { name: 'My Profile', link: '/profile' },
-    { name: 'My Orders', link: '/orders' },
+    { name: 'My Orders', link: '/my-orders' },
     { name: 'Sign out', link: '/logout' },
   ]
 
@@ -48,8 +49,8 @@ export default function Navbar({children}){
                     <div className="flex-shrink-0">
                       <Link to="/">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        className="h-10 w-10"
+                        src={logo}
                         alt="Your Company"
                       />
                       </Link>

@@ -1,5 +1,5 @@
 // A mock function to mimic making an async request for data
-const HOST = process.env.REACT_APP_HOST || "";
+const HOST = process.env.REACT_APP_API_HOST || "";
 export function fecthProductById(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(HOST+"/products/"+id);

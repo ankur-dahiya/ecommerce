@@ -18,9 +18,12 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const {isAuth, sanitizeUser, cookieExtractor} = require("./services/common");
 const { userModel } = require("./model/User");
+const { orderModel } = require("./model/Order");
+// TODO: before deploy setup webhook for deployment
 
 const PORT = process.env.PORT;
 // JWT options
@@ -33,7 +36,7 @@ opts.secretOrKey = process.env.JWT_SECRET_KEY;
 // webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
 // TODO: we will capture actual order after deploying out server live on public url
-server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+server.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
     const sig = request.headers['stripe-signature'];
   
     let event;
@@ -50,6 +53,10 @@ server.post('/webhook', express.raw({type: 'application/json'}), (request, respo
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object;
+        const order = await orderModel.findById(paymentIntentSucceeded.metadata.orderId);
+        order.paymentStatus = "received";
+        await order.save();
+        // TODO: change order status to paid if payment is succeed
         // Then define and call a function to handle the event payment_intent.succeeded
         break;
       // ... handle other event types
@@ -62,7 +69,7 @@ server.post('/webhook', express.raw({type: 'application/json'}), (request, respo
   });
 
 // middlewares
-server.use(express.static("build"));
+server.use(express.static(path.resolve(__dirname,"build")));
 server.use(cookieParser());
 server.use(session({
     secret: process.env.SESSION_KEY,
@@ -82,6 +89,8 @@ server.use("/users",isAuth(),usersRouter.router); //we can also use JWT token fo
 server.use("/auth",authRouter.router);
 server.use("/cart",isAuth(),cartRouter.router);
 server.use("/orders",isAuth(),ordersRouter.router);
+// we add this line to make react router work in case of other routes doesn't match
+server.get("*",(req,res)=> res.sendFile(path.resolve("build","index.html")));
 
 // passport strategies
 passport.use("local",new LocalStrategy({usernameField:"email"},
@@ -150,7 +159,7 @@ const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
 server.post("/create-payment-intent", async (req, res) => {
-  const { totalAmount } = req.body;
+  const { totalAmount,orderId } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
@@ -159,6 +168,10 @@ server.post("/create-payment-intent", async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
+    metadata : {
+        orderId //this info will goto stripe => and then to our webhook
+        //so we can conclude that payment was successful,even if client closes window after pay
+      }
   });
 
   res.send({

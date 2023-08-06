@@ -6,7 +6,7 @@ import StripeCheckoutForm from "./StripeCheckoutForm";
 import { useSelector } from "react-redux";
 import { selectCurrentOrder } from "../features/order/orderSlice";
 import "../Stripe.css"
-const HOST = process.env.REACT_APP_HOST || "";
+const HOST = process.env.REACT_APP_API_HOST || "";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -22,11 +22,7 @@ export default function StriperCheckout() {
     fetch(HOST+"/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ totalAmount: currentOrder.totalAmount }),
-      meta : {
-        order_id: currentOrder.id //this info will goto stripe => and then to our webhook
-        //so we can conclude that payment was successful,even if client closes window after pay
-      }
+      body: JSON.stringify({ totalAmount: currentOrder.totalAmount,orderId:currentOrder.id }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));

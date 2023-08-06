@@ -7,6 +7,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Link, Navigate } from 'react-router-dom';
 import { selectUserInfo } from '../../user/userSlice';
+import logo from "../../../logo/logo_transparent.png";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -22,11 +23,11 @@ export default function Login() {
       {user && <Navigate to="/" replace={true}></Navigate>}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+        <Link to="/"><img
+            className="mx-auto h-20 w-20"
+            src={logo}
             alt="Your Company"
-          />
+          /></Link>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Log in to your account
           </h2>

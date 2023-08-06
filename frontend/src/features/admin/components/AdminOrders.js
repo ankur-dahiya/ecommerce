@@ -13,6 +13,7 @@ import { selectUserInfo } from "../../user/userSlice";
 
 export default function AdminOrders() {
   // TODO: don't redirect on reload
+  // TODO: improve layout(responsive)
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
@@ -26,8 +27,13 @@ export default function AdminOrders() {
   const handleShow = (order)=>{
 
   }
-  const handleUpdate = (e,order)=>{
+  const handleOrderStatus = (e,order)=>{
     const updatedOrder = {...order,status:e.target.value};
+    dispatch(updateOrderAsync(updatedOrder));
+    setEditableOrderId(-1);
+  }
+  const handleOrderPaymentStatus = (e,order)=>{
+    const updatedOrder = {...order,paymentStatus:e.target.value};
     dispatch(updateOrderAsync(updatedOrder));
     setEditableOrderId(-1);
   }
@@ -45,9 +51,13 @@ export default function AdminOrders() {
     switch (status){
       case "pending":
         return `bg-purple-200 text-purple-600`;
+      case "pending":
+        return `bg-purple-200 text-purple-600`;
       case "dispatched":
         return `bg-yellow-200 text-yellow-600`;
       case "delivered":
+        return `bg-green-200 text-green-600`;
+      case "received":
         return `bg-green-200 text-green-600`;
       case "cancelled":
         return `bg-red-200 text-red-600`;
@@ -66,7 +76,7 @@ export default function AdminOrders() {
       <div className="bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
         <div className="w-full">
           <div className="bg-white shadow-md rounded my-6">
-            <table className="min-w-max w-full table-auto">
+            <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6 text-left cursor-pointer" onClick={e=>handleSort({sort:"id",order:sort._order==="desc"?"asc" : "desc"})}>Order #{" "}
@@ -83,7 +93,9 @@ export default function AdminOrders() {
                   )}
                   </th>
                   <th className="py-3 px-6 text-center">Shipping Address</th>
-                  <th className="py-3 px-6 text-center">Status</th>
+                  <th className="py-3 px-6 text-center">Order Status</th>
+                  <th className="py-3 px-6 text-center">Payment Method</th>
+                  <th className="py-3 px-6 text-center">Payment Status</th>
                   <th className="py-3 px-6 text-center">Actions</th>
                 </tr>
               </thead>
@@ -127,7 +139,7 @@ export default function AdminOrders() {
                     </td>
                     <td className="py-3 px-6 text-center">
                       {editableOrderId===order.id ? 
-                      <select onChange={e=>handleUpdate(e,order)}>
+                      <select onChange={e=>handleOrderStatus(e,order)}>
                       <option >Choose Status</option>
                       <option value="pending">Pending</option>
                       <option value="dispatched">Dispatched</option>
@@ -137,6 +149,22 @@ export default function AdminOrders() {
                     :
                       <span className={`${chooseColor(order.status)} py-1 px-3 rounded-full text-xs`}>
                         {order.status}
+                      </span>
+                      }
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                        {order.paymentMethod}
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      {editableOrderId===order.id ? 
+                      <select onChange={e=>handleOrderPaymentStatus(e,order)}>
+                      <option >Choose Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="received">Received</option>
+                    </select>
+                    :
+                      <span className={`${chooseColor(order.paymentStatus)} py-1 px-3 rounded-full text-xs`}>
+                        {order.paymentStatus}
                       </span>
                       }
                     </td>

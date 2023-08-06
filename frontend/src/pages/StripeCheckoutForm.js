@@ -7,6 +7,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { useSelector } from "react-redux";
 import { selectCurrentOrder } from "../features/order/orderSlice";
+import { HOSTURL } from "../app/constants";
+const HOST = process.env.REACT_APP_API_HOST || "";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -63,7 +65,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `http://localhost:3000/order-success/${currentOrder.id}`,
+        return_url: HOSTURL+`/order-success/${currentOrder.id}`,
       },
     });
 
