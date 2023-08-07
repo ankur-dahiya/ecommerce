@@ -61,9 +61,21 @@ export function checkAuth() {
 }
 
 export function signOut() {
-  return new Promise(async (resolve) => {
-    
-    resolve({data:"success"});
+  return new Promise(async (resolve,reject) => {
+    try{
+      const response = await fetch(HOST+"/auth/logout");
+      if(response.ok){
+        const data = {logout:"success"};
+        resolve(data);
+      }
+      else{
+        const error = await response.text();
+        reject(error);
+      }
+    }
+    catch(err){
+      reject(err);
+    } 
   }
   );
 }
