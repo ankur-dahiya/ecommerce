@@ -23,15 +23,8 @@ const cookieParser = require("cookie-parser");
 const {isAuth, sanitizeUser, cookieExtractor} = require("./services/common");
 const { userModel } = require("./model/User");
 const { orderModel } = require("./model/Order");
-// TODO: before deploy setup webhook for deployment
-
 const PORT = process.env.PORT;
-// JWT options
-const opts = {}
-opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = process.env.JWT_SECRET_KEY; 
-
-
+// TODO: before deploy setup webhook for deployment
 
 // webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
@@ -89,8 +82,12 @@ server.use("/users",isAuth(),usersRouter.router); //we can also use JWT token fo
 server.use("/auth",authRouter.router);
 server.use("/cart",isAuth(),cartRouter.router);
 server.use("/orders",isAuth(),ordersRouter.router);
+
+
+
 // we add this line to make react router work in case of other routes doesn't match
 server.get("*",(req,res)=> res.sendFile(path.resolve("build","index.html")));
+
 
 // passport strategies
 passport.use("local",new LocalStrategy({usernameField:"email"},
@@ -119,6 +116,11 @@ passport.use("local",new LocalStrategy({usernameField:"email"},
     }
 ));
 
+
+// JWT options
+const opts = {}
+opts.jwtFromRequest = cookieExtractor;
+opts.secretOrKey = process.env.JWT_SECRET_KEY; 
 passport.use("jwt",new JwtStrategy(opts, async function(jwt_payload, done) {
     try{
         // jwt_payload will contain the decrypted values from bearer token

@@ -1,6 +1,6 @@
 const { userModel } = require("../model/User");
 const crypto = require("crypto");
-const { sanitizeUser } = require("../services/common");
+const { sanitizeUser, sendMail } = require("../services/common");
 const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req,res)=>{
@@ -42,5 +42,57 @@ exports.checkAuth = async (req,res)=>{
     }
     else{
         res.sendStatus(500);
+    }
+}
+exports.resetPasswordRequest = async (req,res)=>{
+    //let send email and a token in the mail body so we can verify that user has clicked right link
+    const {email} = req.body;
+    let user = false;
+    if(email){
+        user = await userModel.findOne({email});
+    }
+    if(user){
+        const token = crypto.randomBytes(48).toString("hex");
+        user.resetPasswordToken = token;
+        await user.save();
+        const to = email;
+        const resetPageLink = `http://localhost:3000/reset-password?token=${token}&email=${email}`; 
+        const subject = "reset password for e-commerce";
+        const html = `<p>click <a href=${resetPageLink}>here</a> to reset your password</p>`
+        const text = `visit this link to reset your password ${resetPageLink}`
+        const response = await sendMail({to,subject,html,text});
+        res.status(200).json(response);
+    }
+    else{
+        res.sendStatus(400);
+    }
+}
+exports.resetPassword = async (req,res)=>{
+    const {email,token,password} = req.body;
+    let user = false;
+    if(email && token){
+        user = await userModel.findOne({email,resetPasswordToken:token});
+    }
+    if(user){
+        try{
+            const salt = crypto.randomBytes(16);
+            crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function(err, hashedPassword){
+                user.password = hashedPassword;
+                user.salt = salt;
+                await user.save();
+                const to = email; 
+                const subject = "password reset successfull for e-commerce";
+                const html = `<p>Please login with your new password</p>`
+                const text = `Please login with your new password`
+                await sendMail({to,subject,html,text});
+                res.status(200).json({message:"success"});
+            })
+        }
+        catch(err){
+            res.status(400);
+        }
+    }
+    else{
+        res.sendStatus(400);
     }
 }

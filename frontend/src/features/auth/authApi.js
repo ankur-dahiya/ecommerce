@@ -68,3 +68,54 @@ export function signOut() {
   );
 }
 
+// for sending reset pass mail
+export function resetPasswordRequest(data) {
+  return new Promise(async (resolve,reject) => {
+    try{
+    const response = await fetch(HOST+"/auth/reset-password-request",{
+      method:"POST",
+      headers: {"Content-Type" : "application/json"},
+      body : JSON.stringify(data)
+    });
+    if(response.ok){
+      const data = await response.json();
+      resolve({data});
+    }
+    else{
+      const data = await response.text();
+      reject(data);
+    }
+  }
+  catch(err){
+    reject(err);
+  } 
+
+}
+  );
+}
+
+// reset password
+export function resetPassword(data) {
+  return new Promise(async (resolve,reject) => {
+    try{
+    const response = await fetch(HOST+"/auth/reset-password",{
+      method:"POST",
+      headers: {"Content-Type" : "application/json"},
+      body : JSON.stringify(data)
+    });
+    if(response.ok){
+      const data = await response.json();
+      resolve({data});
+    }
+    else{
+      const data = await response.text();
+      reject(data);
+    }
+  }
+  catch(err){
+    reject(err);
+  } 
+}
+  );
+}
+
