@@ -11,7 +11,7 @@ const userSchema = new Schema({
     orders : {type: [Schema.Types.Mixed]},
     salt : Buffer,
     resetPasswordToken: {type: String,default:""}
-});
+},{timestamps:true});
 
 // on response it will return _id: objectId("64cb2f15f964d410f2725515") as id : "64cb2f15f964d410f2725515"
 // this get calculated at run time only it'll not get saved in the db

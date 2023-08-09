@@ -7,6 +7,7 @@ exports.createProduct = async (req,res)=>{
         return res.status(201).json(doc);
     }
     catch(err){
+        console.log(err);
         return res.status(400).json(err);
     }
 }

@@ -1,4 +1,6 @@
 const { orderModel } = require("../model/Order");
+const { userModel } = require("../model/User");
+const { sendMail, invoiceTemplate } = require("../services/common");
 
 exports.fetchOrdersByUser = async (req,res)=>{
     const {id} = req.user;
@@ -17,6 +19,11 @@ exports.createOrder = async (req,res)=>{
     const order = new orderModel({...req.body,user:id});
     try{
         const doc = await order.save();
+        const user = await userModel.findById(id);
+        sendMail({to:user.email,
+            html:invoiceTemplate(order),
+            subject:"Order Received #"+order.id,
+            text: "order received please login your acccount to find order details"});
         return res.status(201).json(doc);
     }
     catch(err){

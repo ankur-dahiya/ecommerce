@@ -6,6 +6,8 @@ const cartSchema = new Schema({
     quantity : {type: Number,required:true},
     product : {type: Schema.Types.ObjectId, ref:"product",required:true},
     user : {type: Schema.Types.ObjectId, ref:"user",required:true},
+    size : {type: Schema.Types.Mixed},
+    color : {type: Schema.Types.Mixed},
 });
 
 // on response it will return _id: objectId("64cb2f15f964d410f2725515") as id : "64cb2f15f964d410f2725515"

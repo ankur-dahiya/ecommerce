@@ -5,9 +5,27 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
+const colors = [
+  { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400', id:"white" },
+  { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400', id:"gray" },
+  { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900', id:"black" },
+];
+
+const sizes = [
+  { name: 'XXS', inStock: true, id:"xxs" },
+  { name: 'XS', inStock: true, id:"xs" },
+  { name: 'S', inStock: true, id:"s" },
+  { name: 'M', inStock: true, id:"m" },
+  { name: 'L', inStock: true, id:"l" },
+  { name: 'XL', inStock: true, id:"xl" },
+  { name: '2XL', inStock: true, id:"2xl" },
+  { name: '3XL', inStock: true, id:"3xl" },
+];
+
 export default function ProductForm() {
   // TODO: cancel button functionality
   // TODO: product out of stock warning
+  // TODO solve: previous selected product details when clicking on add product
     const dispatch = useDispatch();
     const categories = useSelector(selectAllCategories);
     const brands = useSelector(selectAllBrands);
@@ -40,6 +58,18 @@ export default function ProductForm() {
         }
         const images = selectedProduct.images;
         images.map((image,index)=>setValue(`image${index+1}`,image));
+        const highlights = selectedProduct.highlights;
+        if(highlights){
+          highlights.map((highlight,index)=>setValue(`highlight${index+1}`,highlight));
+        }
+        const sizes = selectedProduct.sizes.map(size=>size.id);
+        const colors = selectedProduct.colors.map(color=>color.id);
+        if(sizes){
+          setValue("sizes",sizes);
+        }
+        if(colors){
+          setValue("colors",colors);
+        }
       }
     },[selectedProduct,setValue]);
 
@@ -54,6 +84,7 @@ export default function ProductForm() {
       // formating received form data into product format
         let product = {...data};
         product.images = [product.image1,product.image2,product.image3,product.image4];
+        product.highlights = [product.highlight1,product.highlight2,product.highlight3,product.highlight4];
         delete product.image1;
         delete product.image2;
         delete product.image3;
@@ -62,6 +93,12 @@ export default function ProductForm() {
         product.discountPercentage = +product.discountPercentage;
         product.stock = +product.stock;
         product.rating = 0;
+        if(product.colors){
+          product.colors = product.colors.map(color=>colors.find(clr=>color===clr.id));
+        }
+        if(product.sizes){
+          product.sizes = product.sizes.map(size=>sizes.find(sz=>size===sz.id));
+        }
         if(params.id){
           product.id = params.id;
           product.rating = selectedProduct.rating;
@@ -109,7 +146,6 @@ export default function ProductForm() {
               </div>
             </div>
 
-            {/* TODO: this might cause problem while adding new brands and categories */}
             <div className="col-span-full">
               <label htmlFor="brand" className="block text-sm font-medium leading-6 text-gray-900">
                 Brand
@@ -121,6 +157,27 @@ export default function ProductForm() {
                         brands.map((brand)=><option value={brand.value}>{brand.label}</option>)
                     }
                 </select>
+              </div>
+            </div>
+
+            <div className="col-span-full">
+              <label htmlFor="colors" className="block text-sm font-medium leading-6 text-gray-900">
+                Colors
+              </label>
+              <div className="mt-2">
+              {
+                  colors.map((color)=><><input type='checkbox' {...register("colors")} key={color.id} value={color.id}/>{color.name}{"  "}</>)
+              }
+              </div>
+            </div>
+            <div className="col-span-full">
+              <label htmlFor="sizes" className="block text-sm font-medium leading-6 text-gray-900">
+                Sizes
+              </label>
+              <div className="mt-2">
+              {
+                  sizes.map((size)=><><input type='checkbox' {...register("sizes")} key={size.id} value={size.id}/>{size.name}{"  "}</>)
+              }
               </div>
             </div>
 
@@ -249,7 +306,7 @@ export default function ProductForm() {
               </div>
             </div>
             <div className="sm:col-span-4">
-              <label htmlFor="image3" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="image4" className="block text-sm font-medium leading-6 text-gray-900">
                 Image 4
               </label>
               <div className="mt-2">
@@ -257,7 +314,67 @@ export default function ProductForm() {
                   <input
                     type="text"
                     {...register("image4",{required: "product image4 is required"})}
-                    id="image3"
+                    id="image4"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="highlight1" className="block text-sm font-medium leading-6 text-gray-900">
+                Highlight 1
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...register("highlight1",{required: "product highlight1 is required"})}
+                    id="highlight1"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="highlight2" className="block text-sm font-medium leading-6 text-gray-900">
+                Highlight 2
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...register("highlight2",{required: "product highlight1 is required"})}
+                    id="highlight2"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="highlight3" className="block text-sm font-medium leading-6 text-gray-900">
+                Highlight 3
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...register("highlight3",{required: "product highlight3 is required"})}
+                    id="highlight3"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="highlight4" className="block text-sm font-medium leading-6 text-gray-900">
+                Highlight 4
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...register("highlight4",{required: "product highlight4 is required"})}
+                    id="highlight4"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
                 </div>

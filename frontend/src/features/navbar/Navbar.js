@@ -58,7 +58,7 @@ export default function Navbar({children}){
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item,index) => (
-                          // if user exists check his role else show guest options
+                          // if user exists check his role and show options accordingly else show guest options
                           (userInfo ? item[userInfo.role] : item.guest) ? <Link
                             key={index}
                             to={item.link}

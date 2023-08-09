@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProductById,fecthProductByIdAsync } from '../../product/productSlice';
+import { selectProductById,fecthProductByIdAsync, clearSelectedProduct } from '../../product/productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
 import { discountedPrice } from '../../../app/constants';
 
-// TODO: in server data we will add colors,sizes,highlights to each product
 const colors = [
   { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
   { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
