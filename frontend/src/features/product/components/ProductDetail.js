@@ -7,7 +7,6 @@ import { fecthProductByIdAsync } from '../productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync, selectItems } from '../../cart/cartSlice';
 import { selectUserInfo } from '../../user/userSlice';
-import { discountedPrice } from '../../../app/constants';
 
 // TODO: in server data we will add colors,sizes,highlights to each product
 // TODO: show discounted price in product detail page
@@ -49,6 +48,7 @@ export default function ProductDetail() {
   let product = useSelector(selectProductById);
   const user = useSelector(selectUserInfo);
   // TODO: solve the issue where previous images are showing(solved! but slow)
+  // TODO: disable add to card if product is out of stock
 
   function handleCart(e){
     e.preventDefault();
@@ -60,7 +60,6 @@ export default function ProductDetail() {
       if(selectedSize){
         newItem.size = selectedSize;
       }
-      console.log(newItem);
       dispatch(addToCartAsync(newItem));
     }
   }
@@ -152,7 +151,7 @@ export default function ProductDetail() {
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
             <p className="text-xl tracking-tight text-gray-400 line-through">${product.price}</p>
-            <p className="text-3xl tracking-tight text-gray-900">${discountedPrice(product)}</p>
+            <p className="text-3xl tracking-tight text-gray-900">${product.discountPrice}</p>
 
             {/* Reviews */}
             <div className="mt-6">

@@ -2,6 +2,7 @@ const {productModel} = require("../model/Product");
 
 exports.createProduct = async (req,res)=>{
     const product = new productModel(req.body);
+    product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100));
     try{
         const doc = await product.save();
         return res.status(201).json(doc);
@@ -27,12 +28,12 @@ exports.fetchAllProducts = async (req,res)=>{
     let query = productModel.find(condition);
     let totalProductQuery = productModel.find(condition);
     if(req.query.category){
-        query = query.find({category : req.query.category});
-        totalProductQuery = totalProductQuery.find({category : req.query.category});
+        query = query.find({category : {$in:req.query.category.split(",")}});
+        totalProductQuery = totalProductQuery.find({category : {$in:req.query.category.split(",")}});
     }
     if(req.query.brand){
-        query = query.find({brand : req.query.brand});
-        totalProductQuery = totalProductQuery.find({brand : req.query.brand});
+        query = query.find({brand : {$in:req.query.brand.split(",")}});
+        totalProductQuery = totalProductQuery.find({brand : {$in:req.query.brand.split(",")}});
     }
     // TODO: How to get sort on discounted price not on actual price
     if(req.query._sort && req.query._order){
@@ -69,9 +70,11 @@ exports.fetchProductById = async (req,res)=>{
 
 exports.updateProduct = async (req,res)=>{
     const {id} = req.params;
+    const product = req.body;
     try{
-        const product = await productModel.findByIdAndUpdate(id,req.body,{new:true});
-        return res.status(200).json(product);
+        product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100)); 
+        const updatedProduct = await productModel.findByIdAndUpdate(id,product,{new:true});
+        return res.status(200).json(updatedProduct);
     }
     catch(err){
         return res.status(400).json(err);

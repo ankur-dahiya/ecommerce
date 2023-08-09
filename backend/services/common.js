@@ -243,7 +243,7 @@ exports.invoiceTemplate = (order)=>{
                         `<tr>
                           <td align="left" width="60%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">${item.product.title}</td>
                           <td align="left" width="10%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">${item.quantity}</td>
-                          <td align="left" width="10%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$${Math.round(item.product.price*(1-item.product.discountPercentage/100))}</td>
+                          <td align="left" width="10%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$${item.product.discountPrice}</td>
                         </tr>`
                         )}
 

@@ -88,7 +88,6 @@ server.use("/orders",isAuth(),ordersRouter.router);
 // we add this line to make react router work in case of other routes doesn't match
 server.get("*",(req,res)=> res.sendFile(path.resolve("build","index.html")));
 
-
 // passport strategies
 passport.use("local",new LocalStrategy({usernameField:"email"},
     // done means next()
@@ -191,6 +190,7 @@ async function main(){
     console.log("mongodb connected");
 }
 //server 
-server.listen(PORT,()=>{
+const sv = server.listen(PORT,()=>{
     console.log("server started on port: "+PORT);
 })
+console.log("server address is: "+sv.address().address);

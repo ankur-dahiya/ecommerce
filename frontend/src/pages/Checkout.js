@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { updateUserAsync } from '../features/user/userSlice';
 import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice';
 import { selectUserInfo } from '../features/user/userSlice';
-import { discountedPrice } from '../app/constants';
 
 export default function Checkout() {
   // TODO: crashing on reload
@@ -21,7 +20,7 @@ export default function Checkout() {
   const items = useSelector(selectItems);
   const currentOrder = useSelector(selectCurrentOrder);
   const totalAmount = items.reduce((amount,item)=>(
-    discountedPrice(item.product) * item.quantity + amount
+    item.product.discountPrice * item.quantity + amount
   ),0)
   const totalItems = items.reduce((total,item)=>(
     item.quantity + total
@@ -285,7 +284,7 @@ export default function Checkout() {
                                       <h3>
                                         <a href={item.product.id}>{item.product.title}</a>
                                       </h3>
-                                      <p className="ml-4">${discountedPrice(item.product)}</p>
+                                      <p className="ml-4">${item.product.discountPrice}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{item.product.brand}</p>
                                   </div>

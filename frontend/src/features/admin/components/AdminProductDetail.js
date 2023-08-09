@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectProductById,fecthProductByIdAsync, clearSelectedProduct } from '../../product/productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
-import { discountedPrice } from '../../../app/constants';
 
 const colors = [
   { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
@@ -29,6 +28,7 @@ const highlights = [
       'Ultra-soft 100% cotton',
 ]
 
+// Copy productDetails page here
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -128,7 +128,7 @@ export default function AdminProductDetail() {
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
             <p className="text-xl line-through tracking-tight text-gray-400">${product.price}</p>
-            <p className="text-3xl tracking-tight text-gray-900">${discountedPrice(product)}</p>
+            <p className="text-3xl tracking-tight text-gray-900">${product.discountPrice}</p>
 
             {/* Reviews */}
             <div className="mt-6">

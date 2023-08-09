@@ -30,15 +30,13 @@ export function fecthProductsByFilters({filter,sort,pagination,isAdmin}) {
   // filter = {"category" : ["laptop","smartphone"]}
   // sort = {_sort:"price",_order:"desc"}
   // pagination = {_page=1,_limit=10}
-  // todo : on server we will support multiple values
-  // TODO: server will filter deleted products in case of non-admin
+  // TODO : on server we will support multiple values
   // TODO: we can send userId from frontend and check on backend if user is admin or a user
   let queryString = "";
   for(let key in filter){
     const categoryValues = filter[key];
     if(categoryValues.length > 0){
-      const lastCategoryValue = categoryValues[categoryValues.length-1];
-      queryString += `${key}=${lastCategoryValue}&`
+      queryString += `${key}=${categoryValues}&`
     }
   }
   for(let key in sort){

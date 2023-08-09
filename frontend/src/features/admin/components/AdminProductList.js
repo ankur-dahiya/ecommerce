@@ -26,12 +26,12 @@ import {
   StarIcon,
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { ITEMS_PER_PAGE, discountedPrice } from "../../../app/constants";
+import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
-  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
-  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
+  { name: "Price: Low to High", sort: "discountPrice", order: "asc", current: false },
+  { name: "Price: High to Low", sort: "discountPrice", order: "desc", current: false },
 ];
 
 function classNames(...classes) {
@@ -65,7 +65,6 @@ export default function AdminProductList() {
   //TODO: it will support multiple categories
   const handleFilter = (e, section, option) => {
     const newFilter = { ...filter };
-    // console.log(e.target.value,e.target.checked);
     if (e.target.checked) {
       if (newFilter[section.id]) {
         newFilter[section.id].push(option.value);
@@ -87,7 +86,6 @@ export default function AdminProductList() {
   };
 
   const handlePage = (page) => {
-    console.log(page);
     setPage(page);
   };
 
@@ -425,7 +423,7 @@ function ProductGrid({ products }) {
                       <div>
                         <p className="text-sm font-medium text-gray-900">
                           $
-                          {discountedPrice(product)}
+                          {product.discountPrice}
                         </p>
                         <p className="text-sm font-medium text-gray-400 line-through">
                           ${product.price}
