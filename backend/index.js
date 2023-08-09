@@ -190,7 +190,6 @@ async function main(){
     console.log("mongodb connected");
 }
 //server 
-const sv = server.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log("server started on port: "+PORT);
 })
-console.log("server address is: "+sv.address().address);
