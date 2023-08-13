@@ -86,7 +86,7 @@ server.use("/orders",isAuth(),ordersRouter.router);
 
 
 // we add this line to make react router work in case of other routes doesn't match
-server.get("*",(req,res)=> res.sendFile(path.resolve("build","index.html")));
+server.get("*",(req,res)=> res.sendFile(path.resolve(__dirname,"build/index.html")));
 
 // passport strategies
 passport.use("local",new LocalStrategy({usernameField:"email"},
@@ -158,7 +158,7 @@ passport.serializeUser(function(user, cb) {
 // This is your test secret API key.
 const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
-
+//this will work from here as we are only redirecting get requests to build
 server.post("/create-payment-intent", async (req, res) => {
   const { totalAmount,orderId } = req.body;
 
