@@ -6,26 +6,21 @@ import { useSelector } from 'react-redux'
 import { selectItems } from '../cart/cartSlice'
 import { selectUserInfo } from '../user/userSlice'
 import logo from "../../logo/logo_transparent.png";
+import defaultUserimg from "../../logo/default_user.png";
 
 // TODO: this user info should come from backend
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  }
   const navigation = [
     // if user not logged in show guest
-    { name: 'Products', link: '/', user: true,guest: true },
-    { name: 'Team', link: '#', user: true,guest: false },
-    { name: 'Projects', link: '#', user: true,guest: false },
-    { name: 'Products', link: '/admin', admin: true,guest: false },
-    { name: 'Orders', link: '/admin/orders', admin: true,guest: false },
+    { name: 'Products', link: '/', user: true,guest: true, admin:true },
+    { name: 'Edit Products', link: '/admin', admin: true },
   ]
   const userNavigation = [
-    { name: 'My Profile', link: '/profile' },
-    { name: 'My Orders', link: '/my-orders' },
-    { name: 'Sign out', link: '/logout' },
+    { name: 'My Profile', link: '/profile', user:true, admin:true},
+    { name: 'My Orders', link: '/my-orders',admin:true, user:true},
+    { name: 'Customer Orders', link: '/admin/orders', admin: true},
+    { name: 'Sign out', link: '/logout', user:true,admin:true},
+    { name: 'Login', link: '/login', guest:true },
+    { name: 'Sign up', link: '/signup', guest:true },
   ]
 
   function classNames(...classes) {
@@ -36,6 +31,11 @@ const user = {
 export default function Navbar({children}){
     const items = useSelector(selectItems);
     const userInfo = useSelector(selectUserInfo);
+    const user = {
+      name: userInfo?.name || "guest",
+      email: userInfo?.email || "",
+      imageUrl: defaultUserimg,
+    }
 
     return (
         <>
@@ -107,7 +107,7 @@ export default function Navbar({children}){
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item,index) => (
-                              <Menu.Item key={index}>
+                              (userInfo ? item[userInfo.role] : item.guest) ? <Menu.Item key={index}>
                                 {({ active }) => (
                                   <Link
                                     to={item.link}
@@ -119,7 +119,7 @@ export default function Navbar({children}){
                                     {item.name}
                                   </Link>
                                 )}
-                              </Menu.Item>
+                              </Menu.Item> : null
                             ))}
                           </Menu.Items>
                         </Transition>
@@ -142,11 +142,12 @@ export default function Navbar({children}){
 
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                  {/* mobile menu options */}
                   {navigation.map((item,index) => (
-                    <Disclosure.Button
+                    (userInfo ? item[userInfo.role] : item.guest) ? <Link
                       key={index}
                       as="a"
-                      href={item.href}
+                      to={item.link}
                       className={classNames(
                         item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block rounded-md px-3 py-2 text-base font-medium'
@@ -154,7 +155,7 @@ export default function Navbar({children}){
                       aria-current={item.current ? 'page' : undefined}
                     >
                       {item.name}
-                    </Disclosure.Button>
+                    </Link> : null
                   ))}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">
@@ -163,8 +164,8 @@ export default function Navbar({children}){
                       <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium leading-none text-white">{user.name}</div>
-                      <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+                      <div className="text-base font-medium mx-1 leading-none text-white">{user.name}</div>
+                      <div className="text-sm font-medium mx-1 leading-none text-gray-400">{user.email}</div>
                     </div>
                     <Link to="/cart">
                     <button
@@ -178,15 +179,16 @@ export default function Navbar({children}){
                     {items.length>0 && <span className="inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{items.length}</span>}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
+                    {/* mobile menu user options */}
                     {userNavigation.map((item,index) => (
-                      <Disclosure.Button
+                      (userInfo ? item[userInfo.role] : item.guest) ? <Link
                         key={index}
                         as="a"
-                        href={item.href}
+                        to={item.link}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
                         {item.name}
-                      </Disclosure.Button>
+                      </Link> : null
                     ))}
                   </div>
                 </div>
