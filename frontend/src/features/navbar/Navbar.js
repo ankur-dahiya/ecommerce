@@ -11,7 +11,7 @@ import defaultUserimg from "../../logo/default_user.png";
 // TODO: this user info should come from backend
   const navigation = [
     // if user not logged in show guest
-    { name: 'Products', link: '/', user: true,guest: true },
+    { name: 'Products', link: '/', user: true,guest: true, admin:true },
     { name: 'Edit Products', link: '/admin', admin: true },
   ]
   const userNavigation = [
