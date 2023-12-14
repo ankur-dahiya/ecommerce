@@ -1,7 +1,7 @@
 const { orderModel } = require("../model/Order");
 const { productModel } = require("../model/Product");
 const { userModel } = require("../model/User");
-const { sendMail, invoiceTemplate } = require("../services/common");
+const { sendMail, invoiceTemplate, getHost } = require("../services/common");
 
 exports.fetchOrdersByUser = async (req,res)=>{
     const {id} = req.user;
@@ -30,7 +30,7 @@ exports.createOrder = async (req,res)=>{
 
         const user = await userModel.findById(id);
         sendMail({to:user.email,
-            html:invoiceTemplate(order),
+            html:invoiceTemplate(order,getHost(req)),
             subject:"Order Received #"+order.id,
             text: "order received please login your acccount to find order details"});
         return res.status(201).json(doc);

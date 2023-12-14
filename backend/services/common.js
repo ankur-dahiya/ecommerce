@@ -9,6 +9,10 @@ exports.sanitizeUser = (user)=>{
     return {id:user.id,role:user.role};
 }
 
+exports.getHost = (req)=>{
+    return req.protocol+ "://" + req.get('host');
+}
+
 //token extractor from cookie
 exports.cookieExtractor = (req)=>{
     let token = null;
@@ -50,8 +54,7 @@ exports.sendMail = async ({to,subject,text,html})=>{
     }
   }
 
-//   TODO: fix comma in order map
-exports.invoiceTemplate = (order)=>{
+exports.invoiceTemplate = (order,hostlink)=>{
     return (
         `<!DOCTYPE html>
         <html>
@@ -173,7 +176,7 @@ exports.invoiceTemplate = (order)=>{
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                   <tr>
                     <td align="center" valign="top" style="padding: 36px 24px;">
-                      <a href="${"http://localhost:3000/"}" target="_blank" style="display: inline-block;">
+                      <a href="${hostlink}" target="_blank" style="display: inline-block;">
                         <img src="https://cdn.pixabay.com/photo/2014/04/03/10/00/shopping-cart-309592_1280.png" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                       </a>
                     </td>
@@ -225,7 +228,7 @@ exports.invoiceTemplate = (order)=>{
                   <!-- start copy -->
                   <tr>
                     <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                      <p style="margin: 0;">Here is a summary of your recent order. If you have any questions or concerns about your order, please <a href="${"http://localhost:3000/"}">contact us</a>.</p>
+                      <p style="margin: 0;">Here is a summary of your recent order. If you have any questions or concerns about your order, please <a href="${hostlink}">contact us</a>.</p>
                     </td>
                   </tr>
                   <!-- end copy -->
@@ -239,13 +242,13 @@ exports.invoiceTemplate = (order)=>{
                           <td align="left" bgcolor="#D2C7BA" width="20%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong></strong></td>
                           <td align="left" bgcolor="#D2C7BA" width="20%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>${order.id}</strong></td>
                         </tr>
-                        ${order.items.map((item)=>
+                        ${(order.items.map((item)=>
                         `<tr>
                           <td align="left" width="60%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">${item.product.title}</td>
                           <td align="left" width="10%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">${item.quantity}</td>
                           <td align="left" width="10%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$${item.product.discountPrice}</td>
                         </tr>`
-                        )}
+                        )).join("")}
 
                 <tr>
                   <td align="left" width="60%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;"><strong>Total</strong></td>
@@ -332,7 +335,7 @@ exports.invoiceTemplate = (order)=>{
                   <!-- start unsubscribe -->
                   <tr>
                     <td align="center" bgcolor="#D2C7BA" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                      <p style="margin: 0;">To stop receiving these emails, you can <a href="${"http://localhost:3000/"}" target="_blank">unsubscribe</a> at any time.</p>
+                      <p style="margin: 0;">To stop receiving these emails, you can <a href="${hostlink}" target="_blank">unsubscribe</a> at any time.</p>
                       <p style="margin: 0;">Paste 1234 S. Broadway St. City, State 12345</p>
                     </td>
                   </tr>
