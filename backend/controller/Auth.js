@@ -1,6 +1,6 @@
 const { userModel } = require("../model/User");
 const crypto = require("crypto");
-const { sanitizeUser, sendMail } = require("../services/common");
+const { sanitizeUser, sendMail, getHost } = require("../services/common");
 const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req,res)=>{
@@ -56,7 +56,8 @@ exports.resetPasswordRequest = async (req,res)=>{
         user.resetPasswordToken = token;
         await user.save();
         const to = email;
-        const resetPageLink = `http://localhost:3000/reset-password?token=${token}&email=${email}`; 
+        const hostlink = getHost(req);
+        const resetPageLink = `${hostlink}/reset-password?token=${token}&email=${email}`; 
         const subject = "reset password for e-commerce";
         const html = `<p>click <a href=${resetPageLink}>here</a> to reset your password</p>`
         const text = `visit this link to reset your password ${resetPageLink}`
@@ -79,6 +80,7 @@ exports.resetPassword = async (req,res)=>{
             crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function(err, hashedPassword){
                 user.password = hashedPassword;
                 user.salt = salt;
+                user.resetPasswordToken = "";
                 await user.save();
                 const to = email; 
                 const subject = "password reset successfull for e-commerce";
